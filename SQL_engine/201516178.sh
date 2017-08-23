@@ -1,4 +1,3 @@
 #!/bin/bash
-
-g++ sql.cpp
-./a.out
+sudo pip3 install --upgrade sqlparse
+python3 sql.py
