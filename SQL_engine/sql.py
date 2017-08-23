@@ -67,11 +67,13 @@ def check_tablename(filename):
         j = 0
         mynames= inF.readlines()
         mynames = [x[:-1] for x in mynames]
-    return mynames
+	length = len(mynames)
+	for l in range(length):
+		mynames[l] = mynames[l][:-1]
+	return mynames
 
 def check_tablename1(filename, mynames, tablename):
     with open(filename, 'r') as inF:
-        count = 0
         j = 0
         for line in inF:
             j +=1
@@ -89,13 +91,12 @@ def check_attributename(filename, mynames , tablename, attributename):
                 if tablename == mynames[j]:
                     jj = j
                     x = 0
-                    while True:
+		    k = len(mynames)
+                    while jj < (k -1):
                         a = attributename.upper()
                         b = mynames[jj+1].upper()
                         if a == b:
-                            return 1, x;
-                        elif '<end_table>' == mynames[jj+1]:
-                            break;
+                            return 1, x
                         jj += 1
                         x = x + 1
         return 0, x
@@ -112,17 +113,19 @@ def main():
             sqlquery = ' '.join(sqlquery.split())
             string = sqlquery[-1:]
             tokens = filter(None, [str(x).strip() for x in sqlparse.parse(sqlquery)[0].tokens])
-            tokens = tokens[0]
-            aa = tokens.upper()
+            token = tokens[0]
+            aa = token.upper()
             b = len(tokens)
             if b <=3:
-                print ("wrong syntax.")
+                print ("wrong syntax. you have missed something in your query.")
             elif (aa != "SELECT"):
-                print ("type select query.")
+                print ("type 'select' query.")
             elif (string != ';'):
                 print ("wrong syntax; no semicolon after query.")
             else:
                 process (sqlquery)
+def all_query(sqlquery, res1, tabless, columnss, number_of_tables, number_of_columns, mynames):
+		
 
 def process(sqlquery):
     metadata = 'metadata.txt'
@@ -139,27 +142,29 @@ def process(sqlquery):
     number_of_columns = len(columnss)
     mynames = check_tablename(metadata)
     '''
-    print (number_of_tables)
-    print (res1)
     print (res1.tables)
     print (res1.columns)
     print (res1.where)
-    tablename = 'table1'
-    attributename = 'A'
-    result = 0
     count = check_tablename1(metadata, mynames, tablename)
     '''
     count = 0
     for i in range(number_of_tables):
         count = check_tablename1(metadata, mynames, tabless[i])
         if count == 0:
-            print ("wrong syntax, table doesnot exist.")
-            break;
-
+            print ("wrong syntax, table doesnot exist. Please enter valid tablename")
+            break
+    if (count == 1) and (columnss[0] == "*"):
+	all_query(sqlquery, res1, tabless, columnss, number_of_tables, number_of_columns, mynames)
+	return
     if count == 1:
         for j in range(number_of_columns):
             for i in range(number_of_tables):
-                result, cordinate = check_attributename(metadata, mynames, tabless[i], columnss[j])
+		result, cordinate = check_attributename(metadata, mynames, tabless[i], columnss[j])
+		if result == 0:
+			print ("Attribute doesnot exist. Please enter valid tablename")
+			break
+	    if result == 0:
+		break
         if result == 1:
             tablefilename = tablename +  ".csv"
             tablename_change = tablename + "."
