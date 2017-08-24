@@ -16,7 +16,7 @@ SELECT = Keyword("select", caseless=True)
 FROM = Keyword("from", caseless=True)
 WHERE = Keyword("where", caseless=True)
 
-ident          = Word( alphas, alphanums + "_$" ).setName("identifier")
+ident          = Word( alphas, alphanums + "_$" + "(" + ")").setName("identifier")
 columnName     = ( delimitedList( ident, ".", combine=True ) ).setName("column name")
 columnNameList = Group( delimitedList( columnName ) )
 tableName      = ( delimitedList( ident, ".", combine=True ) ).setName("table name")

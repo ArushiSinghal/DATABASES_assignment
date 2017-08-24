@@ -44,6 +44,28 @@ def query_one_table(mynames, res1):
 	array11.append(array)
 	result = numpy.append(array11, result, axis=0)
 	result1 = result
+	object1 = res1.columns[0]
+        object2 = res1.columns[0]
+	if len(res1.columns[0]) >= 4:
+		object1 = res1.columns[0][:3].upper()
+		object1 = object1 + "("
+	if len(res1.columns[0]) >= 8:
+		object2 = res1.columns[0][:7].upper()
+                object2 = object1 + "("
+	if (len(res1.tables) == 1 and len(res1.columns) == 1 and ((len(res1.columns[0]) >= 4 and (object1 == "MAX(" or object1 == "MIN(" or object1 == "SUM(")) or (len(res1.columns[0]) >= 8 and object2 == "AVERAGE("))):
+		j = 0
+		for i in range(len(res1.columns[0])):
+			if res1.columns[0][i] == ")":
+				j = i
+				break
+		l = 0
+		for i in range(len(res1.columns[0])):
+                        if res1.columns[0][i] == "(":
+                                l = i
+                                break
+		m = i+1
+		columnnameee = res1.columns[0][m:j]
+		res1.columns[0] = columnnameee
 	if (res1.columns[0] != "*"):
 		length = len(res1.columns)
 		l = 0
@@ -77,9 +99,9 @@ def query_one_table(mynames, res1):
 			num_rows, num_cols = result1.shape
 			i =1
 			l = 0
-			cdd = float(result1[i][k1])
-                        cddd = float(result1[i][k2])
 			while i< num_rows:
+				cdd = float(result1[i][k1])
+                        	cddd = float(result1[i][k2])
 				if not (ops_dictionary[res1.where[0][1][1]](cdd, cddd)):
 					result = numpy.delete(result, i - l,0)
 					l += 1

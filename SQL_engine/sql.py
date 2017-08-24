@@ -104,6 +104,54 @@ def process(sqlquery):
             return
     if (count == 1) and (len(tabless) == 1):
 	result = query_one_table(mynames, res)
+	res = selectStmt.parseString(sqlquery)
+	object1 = res.columns[0]
+	object2 = res.columns[0]
+	if len(res.columns[0]) >= 4:
+                object1 = res.columns[0][:3].upper()
+                object1 = object1 + "("
+	if len(res.columns[0]) >= 8:
+                object2 = res.columns[0][:7].upper()
+                object2 = object1 + "("
+	num_rows, num_cols = result.shape
+        if (len(res.columns) == 1 and len(res.tables) == 1 and ((len(res.columns[0]) >= 4 and (object1 == "MAX(" or object1 == "MIN(" or object1 == "SUM(")) or (len(res.columns[0]) >= 8 and object2 == "AVERAGE(")) and num_rows > 1 and num_cols == 1):
+		if (object1 == "MAX("):
+			p = float(result[1][0])
+			i =  2
+			j = 2
+			while i < num_rows:
+				if p < float(result[i][0]):
+					p = float(result[i][0])
+					j = i
+				i += 1
+		if (object1 == "MIN("):
+			p = float(result[1][0])
+                        i =  2
+                        j = 2
+                        while i < num_rows:
+                                if p > float(result[i][0]):
+                                        p = float(result[i][0])
+                                        j = i
+				i += 1
+		if (object1 == "SUM("):
+			p = float(result[1][0])
+			i = 2
+			while i < num_rows:
+				p = p + float(result[i][0])
+				i +=1
+		if (object2 == "AVERAGE("):
+			p = float(result[1][0])
+			i = 2
+                        while i < num_rows:
+                                p = p + float(result[i][0])
+				i +=1
+			p = p/(num_cols-1)
+		i = num_rows -1
+		while i > 1 :
+			result = numpy.delete(result, i, axis=0)
+			i -= 1
+		result[0][0] = res.columns[0]
+		result[1][0] = p
 	print (result)
     elif count == 1:
         for j in range(number_of_columns):
