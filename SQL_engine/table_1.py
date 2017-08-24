@@ -113,9 +113,6 @@ def query_one_table(mynames, res1):
 					break
 		for i in range(len(array_new)):
 			if (array_new[i] == res1.where[0][3][0]) or (array1_new[i] == res1.where[0][3][0]):
-					print ("akllkjdasjdlskajdlksajdlksaj")
-					print (array_new[i])
-					print (array2_new[i])
 					k3 = array2_new[i]
 					break
 		for i in range(len(array_new)):
@@ -123,12 +120,6 @@ def query_one_table(mynames, res1):
                                         k4 = array2_new[i]
 					m = 1
 					break
-		print (res1.where[0][3][0])
-		print (res1.where)
-		print (k1)
-		print (k3)
-		print (array_new)
-        	print (array2_new)
 		if (j ==1 and m ==1)and ((k1 == k2) or (k3 == k4)):
 				print ("same attributes, condition. wrong")
 		else:
@@ -152,9 +143,6 @@ def query_one_table(mynames, res1):
 					while i< num_rows:
 						cdd = float(result1[i][k1])
                                         	cddd = float(result1[i][k3])
-						print (cdd)
-						print (cddd)
-						print ("dsdsds")
                                                 if not (ops_dictionary[res1.where[0][1][1]](cdd, a) and ops_dictionary[res1.where[0][3][1]](cddd, b)):
                                                         result = numpy.delete(result, i - l,0)
                                                         l += 1
@@ -197,9 +185,6 @@ def query_one_table(mynames, res1):
 					while i< num_rows:
 						cdd = float(result1[i][k1])
                                         	cddd = float(result1[i][k3])
-						print (cdd)
-						print (cddd)
-						print ("dsdsds")
                                                 if not (ops_dictionary[res1.where[0][1][1]](cdd, a) or ops_dictionary[res1.where[0][3][1]](cddd, b)):
                                                         result = numpy.delete(result, i - l,0)
                                                         l += 1
