@@ -152,6 +152,38 @@ def process(sqlquery):
 			i -= 1
 		result[0][0] = res.columns[0]
 		result[1][0] = p
+	else:
+		for i in range(len(res.columns)):
+                	if len(res.columns[i]) >= 9:
+                        	object1 = res.columns[i][:8].upper()
+                        	object1 = object1 + "("
+                        	if (object1 == "DISTINCT("):
+                                	j = 0
+                                	for k in range(len(res.columns[i])):
+                                        	if res.columns[i][k] == ")":
+                                                	j = k
+                                                	break
+                                	l = 0
+                                	for k in range(len(res.columns[i])):
+                                        	if res.columns[i][k] == "(":
+                                                	l = k
+                                                	break
+                                	m = l + 1
+                                	cole = res.columns[i][m:j]
+					num_rows, num_cols = result.shape
+                                	for k in range(num_cols):
+						if result[0][k] == cole:
+							n = 1
+							while n < num_rows:
+								jj = n+1
+								while jj < num_rows:
+									if (result[n][k] == result[jj][k]):
+										result = numpy.delete(result, jj, axis=0)
+										num_rows, num_cols = result.shape
+									else:
+										jj += 1
+								num_rows, num_cols = result.shape
+								n +=1
 	print (result)
     elif count == 1:
         for j in range(number_of_columns):

@@ -46,6 +46,24 @@ def query_one_table(mynames, res1):
 	result1 = result
 	object1 = res1.columns[0]
         object2 = res1.columns[0]
+	for i in range(len(res1.columns)):
+		if len(res1.columns[i]) >= 9:
+                	object1 = res1.columns[i][:8].upper()
+                	object1 = object1 + "("
+			if (object1 == "DISTINCT("):
+				j = 0
+                		for k in range(len(res1.columns[i])):
+                        		if res1.columns[i][k] == ")":
+                                		j = k
+                                		break
+				l = 0
+                                for k in range(len(res1.columns[i])):
+                                        if res1.columns[i][k] == "(":
+                                                l = k
+                                                break
+				m = l + 1
+				columnnameee = res1.columns[i][m:j]
+                		res1.columns[i] = columnnameee
 	if len(res1.columns[0]) >= 4:
 		object1 = res1.columns[0][:3].upper()
 		object1 = object1 + "("
