@@ -8,48 +8,11 @@ from csv import reader
 from matplotlib import pyplot
 import sys
 import sqlparse
+import operator
 import pyparsing
 from pyparsing import *
-
-selectStmt = Forward()
-SELECT = Keyword("select", caseless=True)
-FROM = Keyword("from", caseless=True)
-WHERE = Keyword("where", caseless=True)
-
-ident          = Word( alphas, alphanums + "_$" ).setName("identifier")
-columnName     = ( delimitedList( ident, ".", combine=True ) ).setName("column name")
-columnNameList = Group( delimitedList( columnName ) )
-tableName      = ( delimitedList( ident, ".", combine=True ) ).setName("table name")
-tableNameList  = Group( delimitedList( tableName ) )
-
-whereExpression = Forward()
-and_ = Keyword("and", caseless=True)
-or_ = Keyword("or", caseless=True)
-in_ = Keyword("in", caseless=True)
-
-E = CaselessLiteral("E")
-binop = oneOf("= != < > >= <= eq ne lt le gt ge", caseless=True)
-arithSign = Word("+-",exact=1)
-intNum = Combine( Optional(arithSign) + Word( nums ) + 
-            Optional( E + Optional("+") + Word(nums) ) )
-intNum = Combine( Optional(arithSign) + Word( nums ) + 
-            Optional( E + Optional("+") + Word(nums) ) )
-
-columnRval = intNum | quotedString | columnName # need to add support for alg expressions
-whereCondition = Group(
-    ( columnName + binop + columnRval ) |
-    ( columnName + in_ + "(" + delimitedList( columnRval ) + ")" ) |
-    ( columnName + in_ + "(" + selectStmt + ")" ) |
-    ( "(" + whereExpression + ")" )
-    )
-whereExpression << whereCondition + ZeroOrMore( ( and_ | or_ ) + whereExpression ) 
-
-# define the grammar
-selectStmt <<= (SELECT + ('*' | columnNameList)("columns") + 
-                FROM + tableNameList( "tables" ) + 
-                Optional(Group(WHERE + whereExpression), "")("where"))
-
-simpleSQL = selectStmt
+from sqlparser_grammar import *
+from table_1 import *
 
 def retrive_tables(filename, column, passing):
     csv_reader = reader(open(filename, 'rt'))
@@ -60,7 +23,7 @@ def retrive_tables(filename, column, passing):
     #col = numpy.append(column, col)
     return col
 
-def check_tablename(filename):
+def store_metadata(filename):
     mynames = []
     with open(filename, 'r') as inF:
         count = 0
@@ -72,7 +35,7 @@ def check_tablename(filename):
 		mynames[l] = mynames[l][:-1]
 	return mynames
 
-def check_tablename1(filename, mynames, tablename):
+def check_tablename(filename, mynames, tablename):
     with open(filename, 'r') as inF:
         j = 0
         for line in inF:
@@ -102,61 +65,47 @@ def check_attributename(filename, mynames , tablename, attributename):
         return 0, x
 
 def main():
-    while True:
-        sqlquery = raw_input("mysql>: ")
-        print (type(sqlquery))
-        if (sqlquery == "exit" or sqlquery == "quit"):
-            sys.exit()
-        else:
-            sqlquery = sqlquery.rstrip()
-            sqlquery = sqlquery.lstrip()
-            sqlquery = ' '.join(sqlquery.split())
-            string = sqlquery[-1:]
-            tokens = filter(None, [str(x).strip() for x in sqlparse.parse(sqlquery)[0].tokens])
-            token = tokens[0]
-            aa = token.upper()
-            b = len(tokens)
-            if b <=3:
-                print ("wrong syntax. you have missed something in your query.")
-            elif (aa != "SELECT"):
-                print ("type 'select' query.")
-            elif (string != ';'):
-                print ("wrong syntax; no semicolon after query.")
-            else:
-                process (sqlquery)
-def all_query(sqlquery, res1, tabless, columnss, number_of_tables, number_of_columns, mynames):
-		
+	while True:
+        	sqlquery = raw_input("mysql>: ")
+        	if (sqlquery == "exit" or sqlquery == "quit"):
+            		sys.exit()
+        	else:
+            		sqlquery = sqlquery.rstrip()
+            		sqlquery = sqlquery.lstrip()
+            		sqlquery = ' '.join(sqlquery.split())
+            		string = sqlquery[-1:]
+            		tokens = filter(None, [str(x).strip() for x in sqlparse.parse(sqlquery)[0].tokens])
+            		token = tokens[0]
+            		aa = token.upper()
+            		b = len(tokens)
+            		if b <=3:
+                		print ("wrong syntax. you have missed something in your query.")
+            		elif (aa != "SELECT"):
+                		print ("type 'select' query.")
+            		elif (string != ';'):
+                		print ("wrong syntax; no semicolon after query.")
+            		else:
+                		process (sqlquery)
 
 def process(sqlquery):
     metadata = 'metadata.txt'
-    '''
-    res = sqlparse.parse(sqlquery)
-    stmt = res[0]
-    res= stmt.tokens
-    print (res)
-    '''
-    res1 = selectStmt.parseString(sqlquery)
-    tabless = res1.tables
-    columnss = res1.columns
+    res = selectStmt.parseString(sqlquery)
+    tabless = res.tables
+    columnss = res.columns
+    wheree = res.where
     number_of_tables = len(tabless)
     number_of_columns = len(columnss)
-    mynames = check_tablename(metadata)
-    '''
-    print (res1.tables)
-    print (res1.columns)
-    print (res1.where)
-    count = check_tablename1(metadata, mynames, tablename)
-    '''
+    mynames = store_metadata(metadata)
     count = 0
     for i in range(number_of_tables):
-        count = check_tablename1(metadata, mynames, tabless[i])
+        count = check_tablename(metadata, mynames, tabless[i])
         if count == 0:
             print ("wrong syntax, table doesnot exist. Please enter valid tablename")
-            break
-    if (count == 1) and (columnss[0] == "*"):
-	all_query(sqlquery, res1, tabless, columnss, number_of_tables, number_of_columns, mynames)
-	return
-    if count == 1:
+            return
+    if (count == 1) and (len(tabless) == 1):
+	result = query_one_table(mynames, res)
+	print (result)
+    elif count == 1:
         for j in range(number_of_columns):
             for i in range(number_of_tables):
 		result, cordinate = check_attributename(metadata, mynames, tabless[i], columnss[j])
@@ -175,4 +124,4 @@ def process(sqlquery):
             print ("column which you want to find does not exists. check syntax")
 
 if __name__ == "__main__":
-        main()
+	main()
