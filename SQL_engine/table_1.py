@@ -51,8 +51,9 @@ def query_one_table(mynames, res1):
 		object1 = object1 + "("
 	if len(res1.columns[0]) >= 8:
 		object2 = res1.columns[0][:7].upper()
-                object2 = object1 + "("
+                object2 = object2 + "("
 	if (len(res1.tables) == 1 and len(res1.columns) == 1 and ((len(res1.columns[0]) >= 4 and (object1 == "MAX(" or object1 == "MIN(" or object1 == "SUM(")) or (len(res1.columns[0]) >= 8 and object2 == "AVERAGE("))):
+		print ("enter")
 		j = 0
 		for i in range(len(res1.columns[0])):
 			if res1.columns[0][i] == ")":

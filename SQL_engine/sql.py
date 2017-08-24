@@ -112,7 +112,7 @@ def process(sqlquery):
                 object1 = object1 + "("
 	if len(res.columns[0]) >= 8:
                 object2 = res.columns[0][:7].upper()
-                object2 = object1 + "("
+                object2 = object2 + "("
 	num_rows, num_cols = result.shape
         if (len(res.columns) == 1 and len(res.tables) == 1 and ((len(res.columns[0]) >= 4 and (object1 == "MAX(" or object1 == "MIN(" or object1 == "SUM(")) or (len(res.columns[0]) >= 8 and object2 == "AVERAGE(")) and num_rows > 1 and num_cols == 1):
 		if (object1 == "MAX("):
@@ -145,7 +145,7 @@ def process(sqlquery):
                         while i < num_rows:
                                 p = p + float(result[i][0])
 				i +=1
-			p = p/(num_cols-1)
+			p = p/(num_rows-1)
 		i = num_rows -1
 		while i > 1 :
 			result = numpy.delete(result, i, axis=0)
