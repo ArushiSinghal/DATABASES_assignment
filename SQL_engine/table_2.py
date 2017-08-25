@@ -25,6 +25,10 @@ def query_two_table(mynames, res1):
 	result = []
 	result1 = []
 	result2 = []
+	k1 = 0
+	k2 = 0
+	k3 = 0
+	k4 = 0
 #########################################################################
 	tablename = res1.tables[0]
 	for i in range(len(mynames)):
@@ -257,7 +261,7 @@ def query_two_table(mynames, res1):
 				pp = 1
 				k4 = m
 				break
-		if (res1.where[0][2][0].upper() == 'AND'):
+		if (res1.where[0][2].upper() == 'AND'):
 			if j == 1 and pp == 1:
 				num_rows, num_cols = result1.shape
 				i = 1
@@ -267,7 +271,7 @@ def query_two_table(mynames, res1):
 					cddddd = float(result1[i][k2])
 					cddd = float(result1[i][k3])
 					cdddd = float(result1[i][k4])
-					if not ((ops_dictionary[res1.where[0][1][1]](cdd, cddddd)) and (ops_dictionary[res1.where[0][3][1]](cddd, cdddd)) ):
+					if not ((ops_dictionary[res1.where[0][1][1]](cdd, cddddd)) and (ops_dictionary[res1.where[0][3][1]](cddd,cdddd)) ):
 						result = numpy.delete(result, i - l,0)
 						l += 1
 					i += 1
@@ -310,7 +314,7 @@ def query_two_table(mynames, res1):
 						result = numpy.delete(result, i - l,0)
 						l += 1
 					i += 1
-		if (res1.where[0][2][0].upper() == 'OR'):
+		if (res1.where[0][2].upper() == 'OR'):
 			if j == 1 and pp == 1:
 				num_rows, num_cols = result1.shape
 				i = 1
