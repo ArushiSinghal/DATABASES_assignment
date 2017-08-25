@@ -25,7 +25,7 @@ def query_two_table(mynames, res1):
 	result = []
 	result1 = []
 	result2 = []
-######################################################################################################################
+#########################################################################
 	tablename = res1.tables[0]
 	for i in range(len(mynames)):
 		if (tablename == mynames[i]) and (mynames[i-1] == '<begin_table>'):
@@ -46,7 +46,7 @@ def query_two_table(mynames, res1):
 				array22.append(k-i-1)
 				k +=1
 			break
-####################################################################################################################
+############################################################################
 	filename1 = res1.tables[0] +  ".csv"
 	csv_reader = reader(open(filename1, 'rt'))
 	for row in csv_reader:
@@ -65,16 +65,20 @@ def query_two_table(mynames, res1):
 	result = numpy.append(arr, result, axis=0)
 	result1 = result
 	num_rows, num_cols = result.shape
-#####################################################################################################################
+#####################################################################
 	if (res1.columns[0] == "*") and (len(res1.where[0]) == 2):
-		for m in range(len(res1.tables)):
-			for l in range(len(array[m])):
-				if ((res1.where[0][1][0].upper() == array[m][l].upper()) or (res1.where[0][1][0] == array1[m][l])):
-					res1.where[0][1][0] = array1[m][l]
-		for m in range(len(res1.tables)):
-			for l in range(len(array[m])):
-				if ((res1.where[0][1][2].upper() == array[m][l].upper()) or (res1.where[0][1][2] == array1[m][l])):
-					res1.where[0][1][2] = array1[m][l]
+		for l in range(len(array)):
+			if ((res1.where[0][1][0].upper() == array[l].upper()) or (res1.where[0][1][0] == array1[l])):
+				res1.where[0][1][0] = array1[l]
+		for l in range(len(array20)):
+			if ((res1.where[0][1][0].upper() == array20[l].upper()) or (res1.where[0][1][0] == array21[l])):
+				res1.where[0][1][0] = array21[l]
+		for l in range(len(array20)):
+			if ((res1.where[0][1][2].upper() == array20[l].upper()) or (res1.where[0][1][2] == array21[l])):
+				res1.where[0][1][2] = array21[l]
+		for l in range(len(array)):
+			if ((res1.where[0][1][2].upper() == array[l].upper()) or (res1.where[0][1][2] == array1[l])):
+				res1.where[0][1][2] = array1[l]
 		num_rows, num_cols = result1.shape
 		for m in range(num_cols):
 			if (result1[0][m] == res1.where[0][1][0]):
@@ -111,6 +115,7 @@ def query_two_table(mynames, res1):
 		num_rows, num_cols = result.shape
 		if (num_rows == 1):
 			result = numpy.delete(result, 0,0)
+############################################################################
 	elif (res1.columns[0] != "*") and (len(res1.where[0]) == 0):
 		l = 0
 		m = 0
@@ -129,6 +134,7 @@ def query_two_table(mynames, res1):
 		num_rows, num_cols = result.shape
 		if (num_rows == 1):
 			result = numpy.delete(result, 0,0)
+#####################################################################################################################
 	elif (res1.columns[0] != "*") and (len(res1.where[0]) == 2):
 		l = 0
 		m = 0
@@ -139,20 +145,23 @@ def query_two_table(mynames, res1):
 					count = 1
 					break
 			if count == 0:
-				result = numpy.delete(result, m - l,1)
+				result = numpy.delete(result, m,1)
 				num_rows, num_cols = result.shape
-				l = l+1
 			else:
 				m += 1
-		for m in range(len(res1.tables)):
-			for l in range(len(array[m])):
-				if ((res1.where[0][1][0].upper() == array[m][l].upper()) or (res1.where[0][1][0] == array1[m][l])):
-					res1.where[0][1][0] = array1[m][l]
-		for m in range(len(res1.tables)):
-			for l in range(len(array[m])):
-				if ((res1.where[0][1][2].upper() == array[m][l].upper()) or (res1.where[0][1][2] == array1[m][l])):
-					res1.where[0][1][2] = array1[m][l]
-
+		for l in range(len(array)):
+			if ((res1.where[0][1][0].upper() == array[l].upper()) or (res1.where[0][1][0] == array1[l])):
+				res1.where[0][1][0] = array1[l]
+		for l in range(len(array20)):
+			if ((res1.where[0][1][0].upper() == array20[l].upper()) or (res1.where[0][1][0] == array21[l])):
+				res1.where[0][1][0] = array21[l]
+		for l in range(len(array20)):
+			if ((res1.where[0][1][2].upper() == array20[l].upper()) or (res1.where[0][1][2] == array21[l])):
+				res1.where[0][1][2] = array21[l]
+		for l in range(len(array)):
+			if ((res1.where[0][1][2].upper() == array[l].upper()) or (res1.where[0][1][2] == array1[l])):
+				res1.where[0][1][2] = array1[l]
+		num_rows, num_cols = result1.shape
 		for m in range(num_cols):
 			if (result1[0][m] == res1.where[0][1][0]):
 				k1 = m
@@ -188,4 +197,174 @@ def query_two_table(mynames, res1):
 		num_rows, num_cols = result.shape
 		if (num_rows == 1):
 			result = numpy.delete(result, 0,0)
+###############################################################################
+	elif (res1.columns[0] != "*") and (len(res1.where[0]) == 4):
+		l = 0
+		m = 0
+		while m < num_cols:
+			count = 0
+			for k in range(len(res1.columns)):
+				if ((res1.columns[k] == result[0][m]) or (res1.tables[0]+"." + res1.columns[k] == result[0][m]) or (res1.tables[1]+"." + res1.columns[k] == result[0][m])):
+					count = 1
+					break
+			if count == 0:
+				result = numpy.delete(result, m,1)
+				num_rows, num_cols = result.shape
+			else:
+				m += 1
+		for l in range(len(array)):
+			if ((res1.where[0][1][0].upper() == array[l].upper()) or (res1.where[0][1][0] == array1[l])):
+				res1.where[0][1][0] = array1[l]
+		for l in range(len(array20)):
+			if ((res1.where[0][1][0].upper() == array20[l].upper()) or (res1.where[0][1][0] == array21[l])):
+				res1.where[0][1][0] = array21[l]
+		for l in range(len(array20)):
+			if ((res1.where[0][1][2].upper() == array20[l].upper()) or (res1.where[0][1][2] == array21[l])):
+				res1.where[0][1][2] = array21[l]
+		for l in range(len(array)):
+			if ((res1.where[0][1][2].upper() == array[l].upper()) or (res1.where[0][1][2] == array1[l])):
+				res1.where[0][1][2] = array1[l]
+		for l in range(len(array)):
+			if ((res1.where[0][3][0].upper() == array[l].upper()) or (res1.where[0][3][0] == array1[l])):
+				res1.where[0][3][0] = array1[l]
+		for l in range(len(array20)):
+			if ((res1.where[0][3][0].upper() == array20[l].upper()) or (res1.where[0][3][0] == array21[l])):
+				res1.where[0][3][0] = array21[l]
+		for l in range(len(array20)):
+			if ((res1.where[0][3][2].upper() == array20[l].upper()) or (res1.where[0][3][2] == array21[l])):
+				res1.where[0][3][2] = array21[l]
+		for l in range(len(array)):
+			if ((res1.where[0][3][2].upper() == array[l].upper()) or (res1.where[0][3][2] == array1[l])):
+				res1.where[0][3][2] = array1[l]
+		num_rows, num_cols = result1.shape
+		for m in range(num_cols):
+			if (result1[0][m] == res1.where[0][1][0]):
+				k1 = m
+				break
+		j = 0
+		for m in range(num_cols):
+			if (result1[0][m] == res1.where[0][1][2]):
+				j = 1
+				k2 = m
+				break
+		for m in range(num_cols):
+			if (result1[0][m] == res1.where[0][3][0]):
+				k3 = m
+				break
+		pp = 0
+		for m in range(num_cols):
+			if (result1[0][m] == res1.where[0][3][2]):
+				pp = 1
+				k4 = m
+				break
+		if (res1.where[0][2][0].upper() == 'AND'):
+			if j == 1 and pp == 1:
+				num_rows, num_cols = result1.shape
+				i = 1
+				l = 0
+				while i< num_rows:
+					cdd = float(result1[i][k1])
+					cddddd = float(result1[i][k2])
+					cddd = float(result1[i][k3])
+					cdddd = float(result1[i][k4])
+					if not ((ops_dictionary[res1.where[0][1][1]](cdd, cddddd)) and (ops_dictionary[res1.where[0][3][1]](cddd, cdddd)) ):
+						result = numpy.delete(result, i - l,0)
+						l += 1
+					i += 1
+			elif j!=1 and pp == 1:
+				num_rows, num_cols = result1.shape
+				i =1
+				l = 0
+				a = float(res1.where[0][1][2])
+				while i< num_rows:
+					cdd = float(result1[i][k1])
+					cddd = float(result1[i][k3])
+					cdddd = float(result1[i][k4])
+					if not ((ops_dictionary[res1.where[0][1][1]](cdd, a)) and (ops_dictionary[res1.where[0][3][1]](cddd, cdddd)) ):
+						result = numpy.delete(result, i - l,0)
+						l += 1
+					i += 1
+			elif j == 1 and pp != 1:
+				num_rows, num_cols = result1.shape
+				i = 1
+				l = 0
+				while i< num_rows:
+					cdd = float(result1[i][k1])
+					cddddd = float(result1[i][k2])
+					cddd = float(result1[i][k3])
+					a = float(res1.where[0][3][2])
+					if not ((ops_dictionary[res1.where[0][1][1]](cdd, cddddd)) and (ops_dictionary[res1.where[0][3][1]](cddd, a))):
+						result = numpy.delete(result, i - l,0)
+						l += 1
+					i += 1
+			elif j!=1 and pp != 1:
+				num_rows, num_cols = result1.shape
+				i =1
+				l = 0
+				a = float(res1.where[0][1][2])
+				while i< num_rows:
+					cdd = float(result1[i][k1])
+					cddd = float(result1[i][k3])
+					cdddd = float(result1[i][k4])
+					if not ((ops_dictionary[res1.where[0][1][1]](cdd, a)) and (ops_dictionary[res1.where[0][3][1]](cddd, cdddd))):
+						result = numpy.delete(result, i - l,0)
+						l += 1
+					i += 1
+		if (res1.where[0][2][0].upper() == 'OR'):
+			if j == 1 and pp == 1:
+				num_rows, num_cols = result1.shape
+				i = 1
+				l = 0
+				while i< num_rows:
+					cdd = float(result1[i][k1])
+					cddddd = float(result1[i][k2])
+					cddd = float(result1[i][k3])
+					cdddd = float(result1[i][k4])
+					if not ((ops_dictionary[res1.where[0][1][1]](cdd, cddddd)) or (ops_dictionary[res1.where[0][3][1]](cddd, cdddd)) ):
+						result = numpy.delete(result, i - l,0)
+						l += 1
+					i += 1
+			elif j!=1 and pp == 1:
+				num_rows, num_cols = result1.shape
+				i =1
+				l = 0
+				a = float(res1.where[0][1][2])
+				while i< num_rows:
+					cdd = float(result1[i][k1])
+					cddd = float(result1[i][k3])
+					cdddd = float(result1[i][k4])
+					if not ((ops_dictionary[res1.where[0][1][1]](cdd, a)) or (ops_dictionary[res1.where[0][3][1]](cddd, cdddd)) ):
+						result = numpy.delete(result, i - l,0)
+						l += 1
+					i += 1
+			elif j == 1 and pp != 1:
+				num_rows, num_cols = result1.shape
+				i = 1
+				l = 0
+				while i< num_rows:
+					cdd = float(result1[i][k1])
+					cddddd = float(result1[i][k2])
+					cddd = float(result1[i][k3])
+					a = float(res1.where[0][3][2])
+					if not ((ops_dictionary[res1.where[0][1][1]](cdd, cddddd)) or (ops_dictionary[res1.where[0][3][1]](cddd, a))):
+						result = numpy.delete(result, i - l,0)
+						l += 1
+					i += 1
+			elif j!=1 and pp != 1:
+				num_rows, num_cols = result1.shape
+				i =1
+				l = 0
+				a = float(res1.where[0][1][2])
+				while i< num_rows:
+					cdd = float(result1[i][k1])
+					cddd = float(result1[i][k3])
+					cdddd = float(result1[i][k4])
+					if not ((ops_dictionary[res1.where[0][1][1]](cdd, a)) or (ops_dictionary[res1.where[0][3][1]](cddd, cdddd))):
+						result = numpy.delete(result, i - l,0)
+						l += 1
+					i += 1
+		num_rows, num_cols = result.shape
+		if (num_rows == 1):
+			result = numpy.delete(result, 0,0)
+#########################################################################
 	return result
