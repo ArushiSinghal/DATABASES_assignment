@@ -14,6 +14,7 @@ from pyparsing import *
 from sqlparser_grammar import *
 from table_1 import *
 from table_2 import *
+from checker import*
 
 def retrive_tables(filename, column, passing):
     csv_reader = reader(open(filename, 'rt'))
@@ -183,7 +184,7 @@ def process(sqlquery):
                                     n +=1
         print (result)
     elif (len(tabless)) == 2:
-	result = query_two_table(mynames, res)
-	print (result)
+        result = query_two_table(mynames, res)
+        print (result)
 if __name__ == "__main__":
 	main()
