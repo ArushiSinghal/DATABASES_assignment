@@ -14,23 +14,26 @@
 #include <cstring>
 using namespace std;
 
-void arrange(string split1[100],string split2[100],long long int b[10000],long long int cal,long long int column_name[1000],string a ,long long int i, long long int j, string a1)
+int arrange(string split1[100],string split2[100],long long int b[10000],long long int cal,long long int column_name[1000],string a[10000] ,long long int i, long long int j, string a1)
 {
   string aa = "asc";
   string bb = "desc";
+  int l1 = i;
+  int l2 = j;
   if (a1 == aa)
   {
     for (int i=0;i<cal;i++)
     {
-      if (split1[column_name[i]].compare(split2[column_name[i]]) > 0 || (split1[column_name[i]].compare(split2[column_name[i]]) == 0 && i==cal-1 &&  b[i] > b[j]))
+      if (split1[column_name[i]].compare(split2[column_name[i]]) > 0 || (split1[column_name[i]].compare(split2[column_name[i]]) == 0 && i==cal-1 &&  b[l1] > b[l2]))
       {
-        string m = a[i];
-        a[j] = a[i];
-        a[i] = m;
-        int p = b[i];
-        b[j] = b[i];
-        b[i] = p;
+        string m = a[l2];
+        a[l2] = a[l1];
+        a[l1] = m;
+        int p = b[l2];
+        b[l2] = b[l1];
+        b[l1] = p;
         break;
+        return 0;
       }
     }
   }
@@ -38,19 +41,18 @@ void arrange(string split1[100],string split2[100],long long int b[10000],long l
   {
     for (int i=0;i<cal;i++)
     {
-      if (split1[column_name[i]].compare(split2[column_name[i]]) < 0 || (split1[column_name[i]].compare(split2[column_name[i]]) == 0 && i==cal-1 &&  b[i] > b[j]))
+      if (split1[column_name[i]].compare(split2[column_name[i]]) < 0 || (split1[column_name[i]].compare(split2[column_name[i]]) == 0 && i==cal-1 &&  b[l1] > b[l2]))
       {
-        string m = a[i];
-        a[j] = a[i];
-        a[i] = m;
-        int p = b[i];
-        b[j] = b[i];
-        b[i] = p;
-        break;
+        string m = a[l2];
+        a[l2] = a[l1];
+        a[l1] = m;
+        int p = b[l2];
+        b[l2] = b[l1];
+        b[l1] = p;
       }
     }
   }
-  return;
+  return 1;
 }
 void sort(string a[10000],long long int column_name[1000],long long int cal,string a1,long long int num_of_record,long long int b[10000])
 {
@@ -79,7 +81,30 @@ void sort(string a[10000],long long int column_name[1000],long long int cal,stri
           num2 += 1;
         }
       }
-      arrange(split1,split2,b,cal,column_name,a,i,j,a1);
+      int flag = arrange(split1,split2,b,cal,column_name,a,i,j,a1);
+      if (flag == 1)
+      {
+        length = a[i].length() - 1;
+        k1 = 0;
+        num1=0;
+        for (int m=0;m<length;m++) {
+          if(a[i][m] == spaceman && a[i][m+1] == spaceman) {
+            split1[num1] = a[i].substr(k1,m-1);
+            k1 = m + 2;
+            num1 += 1;
+          }
+        }
+        length = a[j].length() - 1;
+        k1 = 0;
+        num2=0;
+        for (int m=0;m<length;m++) {
+          if(a[j][m] == spaceman && a[j][m+1] == spaceman) {
+            split2[num2] = a[j].substr(k1,m-1);
+            k1 = m + 2;
+            num2 += 1;
+          }
+        }
+        }
     }
   }
   return;
@@ -168,6 +193,7 @@ int main(int argc, char* argv[]) {
         {
           ofstream file; // out file stream
           file.open("output1.txt",ofstream::out | ofstream::app);
+          a[i] = a[i].substr(0, a[i].size()-1);
           cout << a[i] << '\n';
           file << a[i];
         }
