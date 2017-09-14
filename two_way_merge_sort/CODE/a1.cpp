@@ -21,14 +21,10 @@ int arrange(string split1[100],string split2[100],long long int b[10000],long lo
   string bb = "desc";
   int l1 = i;
   int l2 = j;
-  cout << a[l1] << "\n";
-  cout << a[l2] << "\n";
   if (a1 == aa)
   {
     for (int i=0;i<cal;i++)
     {
-      cout << split1[column_name[i]] << "\n";
-      cout << split2[column_name[i]] << "\n";
       if (split1[column_name[i]].compare(split2[column_name[i]]) > 0 || (split1[column_name[i]].compare(split2[column_name[i]]) == 0 && i==cal-1 &&  b[l1] > b[l2]))
       //if (split1[column_name[i]] > split2[column_name[i]] || (split1[column_name[i]].compare(split2[column_name[i]]) == 0 && i==cal-1 &&  b[l1] > b[l2]))
       {
@@ -48,8 +44,6 @@ int arrange(string split1[100],string split2[100],long long int b[10000],long lo
   }
   else if (a1 == bb)
   {
-    cout << split1[column_name[i]] << "\n";
-    cout << split2[column_name[i]] << "\n";
     for (int i=0;i<cal;i++)
     {
     if (split1[column_name[i]].compare(split2[column_name[i]]) < 0 || (split1[column_name[i]].compare(split2[column_name[i]]) == 0 && i==cal-1 &&  b[l1] > b[l2]))
