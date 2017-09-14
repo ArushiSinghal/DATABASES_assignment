@@ -26,7 +26,6 @@ int arrange(string split1[100],string split2[100],long long int b[10000],long lo
     for (int i=0;i<cal;i++)
     {
       if (split1[column_name[i]].compare(split2[column_name[i]]) > 0 || (split1[column_name[i]].compare(split2[column_name[i]]) == 0 && i==cal-1 &&  b[l1] > b[l2]))
-      //if (split1[column_name[i]] > split2[column_name[i]] || (split1[column_name[i]].compare(split2[column_name[i]]) == 0 && i==cal-1 &&  b[l1] > b[l2]))
       {
         string m = a[l2];
         a[l2] = a[l1];
@@ -34,7 +33,7 @@ int arrange(string split1[100],string split2[100],long long int b[10000],long lo
         int p = b[l2];
         b[l2] = b[l1];
         b[l1] = p;
-        return 1;;
+        return 1;
       }
       else if (split1[column_name[i]] < split2[column_name[i]])
       {
@@ -47,7 +46,6 @@ int arrange(string split1[100],string split2[100],long long int b[10000],long lo
     for (int i=0;i<cal;i++)
     {
     if (split1[column_name[i]].compare(split2[column_name[i]]) < 0 || (split1[column_name[i]].compare(split2[column_name[i]]) == 0 && i==cal-1 &&  b[l1] > b[l2]))
-      //if (split1[column_name[i]] < split2[column_name[i]] || (split1[column_name[i]].compare(split2[column_name[i]]) == 0 && i==cal-1 &&  b[l1] > b[l2]))
       {
         string m = a[l2];
         a[l2] = a[l1];
@@ -196,14 +194,9 @@ int main(int argc, char* argv[]) {
 
         for (long long int i= 0;i<num_of_record;i++)
         {
-          //ofstream file; // out file stream
-          //file.open("output1.txt",ofstream::in | ofstream::out | ofstream::app);
           ofstream log("output1.txt", std::ios_base::app | std::ios_base::out);
           a[i] = a[i].substr(0, a[i].size()-1);
-          //file.close();
-          //file << a[i] << "\n";
           log << a[i] << "\n";
-          //log << "line\n";
         }
   }
   else
