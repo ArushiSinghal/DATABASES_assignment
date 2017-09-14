@@ -67,46 +67,17 @@ void sort(string a[10000],long long int column_name[1000],long long int cal,stri
 {
   string split1[100],split2[100];
   char spaceman = ' ';
-  long long int num1,num2,k1,length;
+  long long int num1,num2;
   for (long long int i=0;i<num_of_record;i++) {
-    length = a[i].length() - 1;
-    k1 = 0;
-    num1=0;
-    int flag1 = 0;
-    for (int m=0;m<length;m++) {
-      if(a[i][m] == spaceman && a[i][m-1] == spaceman && a[i][m+1] != spaceman) {
-        int len = m-1 -k1;
-        split1[num1] = a[i].substr(k1,len);
-        k1 = m + 1;
-        num1 += 1;
-        flag1 = 1;
-      }
-    }
-    if (flag1 == 1)
-    {
-      int len = length-k1;
-      split1[num1] = a[i].substr(k1,len);
-    }
-    flag1 = 0;
+	     split1[0] = a[i].substr(0,10);
+	      split1[1] = a[i].substr(12,32);
+	       split1[2] = a[i].substr(46,52);
+         num1 = 3;
     for (long long int j=i+1;j<num_of_record;j++) {
-      length = a[j].length() - 1;
-      k1 = 0;
-      num2=0;
-      for (int m=0;m<length;m++) {
-        if(a[j][m] == spaceman && a[j][m-1] == spaceman && a[j][m+1] != spaceman) {
-          int len = m-1 -k1;
-          split2[num2] = a[j].substr(k1,len);
-          k1 = m + 1;
-          num2 += 1;
-          flag1 = 1;
-        }
-      }
-      if (flag1 == 1)
-      {
-        int len = length-k1;
-        split2[num2] = a[j].substr(k1,len);
-        num2 +=1;
-      }
+          split2[0] = a[j].substr(0,10);
+   	      split2[1] = a[j].substr(12,32);
+   	       split2[2] = a[j].substr(46,52);
+          num2 = 3;
       int flag = arrange(split1,split2,b,cal,column_name,a,i,j,a1);
       if (flag == 1)
       {
