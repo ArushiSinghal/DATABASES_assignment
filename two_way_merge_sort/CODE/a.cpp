@@ -169,6 +169,8 @@ int main(int argc, char* argv[]) {
   }
 
   ////////////////////////PHASE 1//////////////////////////////////////////////
+  ofstream ofs("output1.txt", ios::out | ios::trunc);
+  ofs.close ();
   string a1 = "asc";
   string a2 = "desc";
   myfile.open(argv[1]);
@@ -191,11 +193,9 @@ int main(int argc, char* argv[]) {
         sort (a,column_name,cal,argv[4],num_of_record,b);
         for (long long int i= 0;i<num_of_record;i++)
         {
-          ofstream file; // out file stream
-          file.open("output1.txt",ofstream::out | ofstream::app);
+          ofstream log("output1.txt", std::ios_base::app | std::ios_base::out);
           a[i] = a[i].substr(0, a[i].size()-1);
-          cout << a[i] << '\n';
-          file << a[i];
+          log << a[i] << "\n";
         }
       }
   }
