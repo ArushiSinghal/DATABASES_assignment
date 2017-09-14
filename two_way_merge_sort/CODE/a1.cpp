@@ -41,11 +41,11 @@ int arrange(string split1[100],string split2[100],long long int b[10000],long lo
       }
     }
   }
-  else if (a1 == bb)
+  else
   {
     for (int i=0;i<cal;i++)
     {
-    if (split1[column_name[i]].compare(split2[column_name[i]]) < 0 || (split1[column_name[i]].compare(split2[column_name[i]]) == 0 && i==cal-1 &&  b[l1] > b[l2]))
+      if (split1[column_name[i]].compare(split2[column_name[i]]) < 0 || (split1[column_name[i]].compare(split2[column_name[i]]) == 0 && i==cal-1 &&  b[l1] > b[l2]))
       {
         string m = a[l2];
         a[l2] = a[l1];

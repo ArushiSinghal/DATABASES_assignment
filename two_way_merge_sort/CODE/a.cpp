@@ -12,6 +12,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
+#include <ios>
 using namespace std;
 
 int arrange(string split1[100],string split2[100],long long int b[10000],long long int cal,long long int column_name[1000],string a[10000] ,long long int i, long long int j, string a1)
@@ -32,7 +33,10 @@ int arrange(string split1[100],string split2[100],long long int b[10000],long lo
         int p = b[l2];
         b[l2] = b[l1];
         b[l1] = p;
-        break;
+        return 1;
+      }
+      else if (split1[column_name[i]] < split2[column_name[i]])
+      {
         return 0;
       }
     }
@@ -49,10 +53,15 @@ int arrange(string split1[100],string split2[100],long long int b[10000],long lo
         int p = b[l2];
         b[l2] = b[l1];
         b[l1] = p;
+        return 1;
+      }
+      else if (split1[column_name[i]] > split2[column_name[i]])
+      {
+        return 0;
       }
     }
   }
-  return 1;
+  return 0;
 }
 void sort(string a[10000],long long int column_name[1000],long long int cal,string a1,long long int num_of_record,long long int b[10000])
 {
@@ -63,53 +72,51 @@ void sort(string a[10000],long long int column_name[1000],long long int cal,stri
     length = a[i].length() - 1;
     k1 = 0;
     num1=0;
+    int flag1 = 0;
     for (int m=0;m<length;m++) {
-      if(a[i][m] == spaceman && a[i][m+1] == spaceman) {
-        split1[num1] = a[i].substr(k1,m-1);
-        k1 = m + 2;
+      if(a[i][m] == spaceman && a[i][m-1] == spaceman && a[i][m+1] != spaceman) {
+        int len = m-1 -k1;
+        split1[num1] = a[i].substr(k1,len);
+        k1 = m + 1;
         num1 += 1;
+        flag1 = 1;
       }
     }
+    if (flag1 == 1)
+    {
+      int len = length-k1;
+      split1[num1] = a[i].substr(k1,len);
+    }
+    flag1 = 0;
     for (long long int j=i+1;j<num_of_record;j++) {
       length = a[j].length() - 1;
       k1 = 0;
       num2=0;
       for (int m=0;m<length;m++) {
-        if(a[j][m] == spaceman && a[j][m+1] == spaceman) {
-          split2[num2] = a[j].substr(k1,m-1);
-          k1 = m + 2;
+        if(a[j][m] == spaceman && a[j][m-1] == spaceman && a[j][m+1] != spaceman) {
+          int len = m-1 -k1;
+          split2[num2] = a[j].substr(k1,len);
+          k1 = m + 1;
           num2 += 1;
+          flag1 = 1;
         }
+      }
+      if (flag1 == 1)
+      {
+        int len = length-k1;
+        split2[num2] = a[j].substr(k1,len);
+        num2 +=1;
       }
       int flag = arrange(split1,split2,b,cal,column_name,a,i,j,a1);
       if (flag == 1)
       {
-        length = a[i].length() - 1;
-        k1 = 0;
-        num1=0;
-        for (int m=0;m<length;m++) {
-          if(a[i][m] == spaceman && a[i][m+1] == spaceman) {
-            split1[num1] = a[i].substr(k1,m-1);
-            k1 = m + 2;
-            num1 += 1;
-          }
-        }
-        length = a[j].length() - 1;
-        k1 = 0;
-        num2=0;
-        for (int m=0;m<length;m++) {
-          if(a[j][m] == spaceman && a[j][m+1] == spaceman) {
-            split2[num2] = a[j].substr(k1,m-1);
-            k1 = m + 2;
-            num2 += 1;
-          }
-        }
-        }
+        for (int m=0;m<num2;m++)
+          split1[m] = split2[m];
+      }
+      }
     }
-  }
   return;
 }
-
 
 int main(int argc, char* argv[]) {
   long long int number_of_lines = 0;
@@ -178,6 +185,7 @@ int main(int argc, char* argv[]) {
   {
 
       long long int num_of_record = memory/sum_of_each_tuple;
+      cout << num_of_record << "\n";
       long long int iteration = number_of_lines/num_of_record;
       if (number_of_lines%num_of_record != 0)
         iteration += 1;
