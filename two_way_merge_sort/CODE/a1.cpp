@@ -65,6 +65,38 @@ int arrange(string split1[100],string split2[100],long long int b[10000],long lo
   return 0;
 }
 
+void sort(string a[10000],long long int column_name[1000],long long int cal,string a1,long long int num_of_record,long long int b[10000],string val[20][3],long long int num_rows)
+{
+  string split1[100],split2[100];
+  char spaceman = ' ';
+  long long int num1,num2;
+  for (long long int i=0;i<num_of_record;i++) {
+    int count11 = 0;
+    for (long long int f = 0;f<num_rows;f++)
+    {
+      split1[f] = a[i].substr(2*f+count11,stoi(val[f][1]));
+      count11 += stoi(val[f][1]);
+    }
+    num1 = num_rows;
+    for (long long int j=i+1;j<num_of_record;j++) {
+      int count11 = 0;
+      for (long long int f = 0;f<num_rows;f++)
+      {
+        split2[f] = a[j].substr(2*f+count11,stoi(val[f][1]));
+        count11 += stoi(val[f][1]);
+      }
+      num2 = num_rows;
+      int flag = arrange(split1,split2,b,cal,column_name,a,i,j,a1);
+      if (flag == 1)
+      {
+        for (int m=0;m<num2;m++)
+          split1[m] = split2[m];
+      }
+      }
+    }
+  return;
+}
+/*
 void sort(string a[10000],long long int column_name[1000],long long int cal,string a1,long long int num_of_record,long long int b[10000])
 {
   string split1[100],split2[100];
@@ -90,6 +122,7 @@ void sort(string a[10000],long long int column_name[1000],long long int cal,stri
     }
   return;
 }
+*/
 
 int main(int argc, char* argv[]) {
   long long int number_of_lines = 0;
@@ -162,7 +195,7 @@ int main(int argc, char* argv[]) {
             getline(myfile, a[k], '\n');
             b[k] = k;
         }
-        sort (a,column_name,cal,argv[4],num_of_record,b);
+        sort (a,column_name,cal,argv[4],num_of_record,b,val,no_of_lines);
 
         for (long long int i= 0;i<num_of_record;i++)
         {
