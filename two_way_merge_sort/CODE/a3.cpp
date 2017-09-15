@@ -63,21 +63,41 @@ int arrange(string split1[100],string split2[100],long long int b[10000],long lo
   }
   return 0;
 }
-void sort(string a[10000],long long int column_name[1000],long long int cal,string a1,long long int num_of_record,long long int b[10000])
+void sort(string a[10000],long long int column_name[1000],long long int cal,string a1,long long int num_of_record,long long int b[10000],string val[20][3],long long int num_rows)
 {
   string split1[100],split2[100];
   char spaceman = ' ';
   long long int num1,num2;
   for (long long int i=0;i<num_of_record;i++) {
-      split1[0] = a[i].substr(0,10);
-	      split1[1] = a[i].substr(12,32);
-	       split1[2] = a[i].substr(46,52);
-         num1 = 3;
+    int count11 = 0;
+    cout << a[i] << "\n";
+    for (long long int f = 0;f<num_rows;f++)
+    {
+      split1[f] = a[i].substr(2*f+count11,stoi(val[f][1]));
+      cout << split1[f] << "\n";
+      count11 += stoi(val[f][1]);
+    }
+    num1 = num_rows;
+    cout << num1 << "\n";
+    //  split1[0] = a[i].substr(0,10);
+	   //   split1[1] = a[i].substr(12,32);
+	   //    split1[2] = a[i].substr(46,52);
+    //     num1 = 3;
     for (long long int j=i+1;j<num_of_record;j++) {
-          split2[0] = a[j].substr(0,10);
-   	      split2[1] = a[j].substr(12,32);
-   	       split2[2] = a[j].substr(46,52);
-          num2 = 3;
+      int count11 = 0;
+      cout << a[j] << "\n";
+      for (long long int f = 0;f<num_rows;f++)
+      {
+        split2[f] = a[j].substr(2*f+count11,stoi(val[f][1]));
+        cout << split2[f] << "\n";
+        count11 += stoi(val[f][1]);
+      }
+      num2 = num_rows;
+      cout << num2 << "\n";
+          //split2[0] = a[j].substr(0,10);
+   	      //split2[1] = a[j].substr(12,32);
+   	      // split2[2] = a[j].substr(46,52);
+          //num2 = 3;
       int flag = arrange(split1,split2,b,cal,column_name,a,i,j,a1);
       if (flag == 1)
       {
@@ -94,7 +114,7 @@ int main(int argc, char* argv[]) {
   long long int no_of_lines = 0;
   long long int column_name[1000],b[10000],num_of_rows;
   long long int sum_of_each_tuple = 0;
-  string line, p, val[4][3], a[10000];
+  string line, p, val[20][3], a[10000];
   long long int memory = stoi(argv[3]);
   long long int cal = argc - 5;
   long long int var = 0;
@@ -168,7 +188,7 @@ int main(int argc, char* argv[]) {
             getline(myfile, a[k], '\n');
             b[k] = k;
         }
-        sort (a,column_name,cal,argv[4],num_of_record,b);
+        sort (a,column_name,cal,argv[4],num_of_record,b,val,no_of_lines);
         for (long long int i= 0;i<num_of_record;i++)
         {
           ofstream log("output1.txt", std::ios_base::app | std::ios_base::out);
