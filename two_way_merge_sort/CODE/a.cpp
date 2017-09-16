@@ -125,13 +125,13 @@ void sort(string a[10000],long long int column_name[1000],long long int cal,stri
 int main(int argc, char* argv[]) {
   long long int number_of_lines = 0;
   long long int no_of_lines = 0;
-  long long int column_name[1000],b[10000],num_of_rows;
+  long long int column_name[1000],b[10000],num_of_rows,iteration;
   long long int sum_of_each_tuple = 0;
   string line, p, val[4][3], a[10000];
   long long int memory = stoi(argv[3]);
   long long int cal = argc - 5;
   long long int var = 0;
-
+  long long int new_num_record;
   ifstream myfile,metafile;
   myfile.open(argv[1]);
   metafile.open("metadata.txt");
@@ -158,6 +158,7 @@ int main(int argc, char* argv[]) {
             sum_of_each_tuple += stoi(val[countRows][countColumns]);
         }
     }
+  sum_of_each_tuple = sum_of_each_tuple + 2*(num_of_rows-1);
   metafile.close();
 
   for (int i = 0;i<cal;i++)
@@ -189,7 +190,8 @@ int main(int argc, char* argv[]) {
   {
 
       long long int num_of_record = memory/sum_of_each_tuple;
-      long long int iteration = number_of_lines/num_of_record;
+      new_num_record = num_of_record;
+      iteration = number_of_lines/num_of_record;
       if (number_of_lines%num_of_record != 0)
         iteration += 1;
       for (long long int l = 1; l<= iteration; l++)
@@ -215,8 +217,7 @@ int main(int argc, char* argv[]) {
     cout << "type correct order in which you want to sort the file.\n";
     return 0;
   }
-
-//  myfile.close();
-///////////////////////////////phase2//////////////////////////////////////
-  return 0;
+	myfile.close();
+/////SECOND PHASE OF THE SORT
+	return 0;
 }
