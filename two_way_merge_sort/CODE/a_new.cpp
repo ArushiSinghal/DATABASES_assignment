@@ -14,8 +14,10 @@
 #include <cstring>
 #include <ios>
 using namespace std;
+string a[6000000];
+long long int b[6000000];
 
-int arrange(string split1[100],string split2[100],long long int b[10000],long long int cal,long long int column_name[1000],string a[10000] ,long long int i, long long int j, string a1)
+int arrange(string split1[100],string split2[100],long long int cal,long long int column_name[1000],long long int i, long long int j, string a1)
 {
   string aa = "asc";
   string bb = "desc";
@@ -63,8 +65,7 @@ int arrange(string split1[100],string split2[100],long long int b[10000],long lo
   }
   return 0;
 }
-
-void sort(string a[10000],long long int column_name[1000],long long int cal,string a1,long long int num_of_record,long long int b[10000],string val[20][3],long long int num_rows)
+void sort(long long int column_name[1000],long long int cal,string a1,long long int num_of_record,string val[20][3],long long int num_rows)
 {
   string split1[100],split2[100];
   char spaceman = ' ';
@@ -85,7 +86,7 @@ void sort(string a[10000],long long int column_name[1000],long long int cal,stri
         count11 += stoi(val[f][1]);
       }
       num2 = num_rows;
-      int flag = arrange(split1,split2,b,cal,column_name,a,i,j,a1);
+	int flag = arrange(split1,split2,cal,column_name,i,j,a1);
       if (flag == 1)
       {
         for (int m=0;m<num2;m++)
@@ -95,40 +96,14 @@ void sort(string a[10000],long long int column_name[1000],long long int cal,stri
     }
   return;
 }
-/*
-void sort(string a[10000],long long int column_name[1000],long long int cal,string a1,long long int num_of_record,long long int b[10000])
-{
-  string split1[100],split2[100];
-  char spaceman = ' ';
-  long long int num1,num2;
-  for (long long int i=0;i<num_of_record;i++) {
-      split1[0] = a[i].substr(0,10);
-	      split1[1] = a[i].substr(12,32);
-	       split1[2] = a[i].substr(46,52);
-         num1 = 3;
-    for (long long int j=i+1;j<num_of_record;j++) {
-          split2[0] = a[j].substr(0,10);
-   	      split2[1] = a[j].substr(12,32);
-   	       split2[2] = a[j].substr(46,52);
-          num2 = 3;
-      int flag = arrange(split1,split2,b,cal,column_name,a,i,j,a1);
-      if (flag == 1)
-      {
-        for (int m=0;m<num2;m++)
-          split1[m] = split2[m];
-      }
-      }
-    }
-  return;
-}
-*/
+
 int main(int argc, char* argv[]) {
   long long int number_of_lines = 0;
   long long int no_of_lines = 0;
-  long long int column_name[1000],b[10000],num_of_rows,iteration;
+  long long int column_name[1000],num_of_rows,iteration;
   long long int sum_of_each_tuple = 0;
-  string line, p, val[4][3], a[10000];
-  long long int memory = stoi(argv[3]);
+  string line, p, val[4][3];
+  long long int memory = stoi(argv[3])*1048576;
   long long int cal = argc - 5;
   long long int var = 0;
   long long int new_num_record;
@@ -158,7 +133,7 @@ int main(int argc, char* argv[]) {
             sum_of_each_tuple += stoi(val[countRows][countColumns]);
         }
     }
-  sum_of_each_tuple = sum_of_each_tuple + 2*(num_of_rows-1);
+  sum_of_each_tuple = sum_of_each_tuple + 2*(num_of_rows-1) + 1;
   metafile.close();
 
   for (int i = 0;i<cal;i++)
@@ -203,12 +178,10 @@ int main(int argc, char* argv[]) {
             getline(myfile, a[k], '\n');
             b[k] = k;
         }
-        sort (a,column_name,cal,argv[4],num_of_record,b,val,no_of_lines);
-
+	sort (column_name,cal,argv[4],num_of_record,val,no_of_lines);
           string filenames = "firstsort";
           filenames = filenames + to_string(l);
           filenames =  filenames + ".txt";
-          cout << filenames << "\n";
           ofstream ofs(filenames, ios::out | ios::trunc);
           for (long long int i= 0;i<num_of_record;i++)
           {
@@ -216,14 +189,6 @@ int main(int argc, char* argv[]) {
             a[i] = a[i].substr(0, a[i].size());
             log << a[i] << "\n";
           }
-        /*
-        for (long long int i= 0;i<num_of_record;i++)
-        {
-          ofstream log("output1.txt", std::ios_base::app | std::ios_base::out);
-          a[i] = a[i].substr(0, a[i].size());
-          log << a[i] << "\n";
-        }
-        */
       }
   }
   else
@@ -232,32 +197,6 @@ int main(int argc, char* argv[]) {
     return 0;
   }
 	myfile.close();
-/*
-/////SECOND PHASE OF THE SORT
-char s[1000][200];
-//string *p[1000];
-for (int i=0;i<iteration;i++)
-{
-	//p[i]=(a+i*num_of_record);
-  cout << a[0] << "\n";
-  cout << a[1] << "\n";
-  cout << a+1 << "\n";
-    cout << *(a+1) << "\n";
-//  s[i] = (a+i*new_num_record);
-	cout << *s[i]  << "\n";
-}
-if (i==iteration-1 && p[i] = (a+i*num_of_record+number_of_lines - (iteration-1)*num_of_record-1))
-	{
-
-	}
-	else if (i!=iteration-1 && p[i] = (a+i*num_of_record+num_of_record-1))
-	{
-
-	}
-	else
-		p[i] += 1;
-
-*/
 
 	return 0;
 }
