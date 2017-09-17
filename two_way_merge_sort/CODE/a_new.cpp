@@ -260,7 +260,7 @@ count = 0;
   if (count == 0)
   break;
   sort_phase(column_name,cal,argv[4],count,val,no_of_lines);
-  cout << a[0] << "\n";
+  //cout << a[0] << "\n";
   ofstream log(argv[2], ios_base::app | ios_base::out);
   a[0] = a[0].substr(0, a[0].size());
   log << a[0] << "\n";
