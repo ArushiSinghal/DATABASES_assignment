@@ -242,7 +242,12 @@ while(1)
 count = 0;
   for(int i=1;i<=iteration;i++)
   {
-    if( !myfiles[i].eof())
+    if(myfiles[i].eof() || myfiles[i].peek() == EOF)
+    {
+      count +=1;
+      count = count -1;
+    }
+    else
     {
       streampos oldpos = myfiles[i].tellg();  // stores the position
       getline(myfiles[i], a[count], '\n');
