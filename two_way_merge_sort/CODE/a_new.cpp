@@ -65,6 +65,37 @@ int arrange(string split1[100],string split2[100],long long int cal,long long in
   }
   return 0;
 }
+
+
+void sort_phase(long long int column_name[1000],long long int cal,string a1,long long int num_of_record,string val[20][3],long long int num_rows)
+{
+  string split1[100],split2[100];
+  char spaceman = ' ';
+  long long int num2;
+    int count11 = 0;
+    for (long long int f = 0;f<num_rows;f++)
+    {
+      split1[f] = a[0].substr(2*f+count11,stoi(val[f][1]));
+      count11 += stoi(val[f][1]);
+    }
+    for (long long int j=1;j<num_of_record;j++) {
+      count11 = 0;
+      for (long long int f = 0;f<num_rows;f++)
+      {
+        split2[f] = a[j].substr(2*f+count11,stoi(val[f][1]));
+        count11 += stoi(val[f][1]);
+      }
+      num2 = num_rows;
+        int flag = arrange(split1,split2,cal,column_name,0,j,a1);
+      if (flag == 1)
+      {
+        for (int m=0;m<num2;m++)
+          split1[m] = split2[m];
+      }
+      }
+  return;
+}
+
 void sort(long long int column_name[1000],long long int cal,string a1,long long int num_of_record,string val[20][3],long long int num_rows)
 {
   string split1[100],split2[100];
@@ -133,7 +164,7 @@ int main(int argc, char* argv[]) {
             sum_of_each_tuple += stoi(val[countRows][countColumns]);
         }
     }
-  sum_of_each_tuple = sum_of_each_tuple + 2*(num_of_rows-1) + 1;
+  sum_of_each_tuple = sum_of_each_tuple + 2*(num_of_rows-1) + 2;
   metafile.close();
 
   for (int i = 0;i<cal;i++)
@@ -156,8 +187,8 @@ int main(int argc, char* argv[]) {
   }
 
   ////////////////////////PHASE 1//////////////////////////////////////////////
-  ofstream ofs("output1.txt", ios::out | ios::trunc);
-  ofs.close ();
+  //ofstream ofs("output1.txt", ios::out | ios::trunc);
+  //ofs.close ();
   string a1 = "asc";
   string a2 = "desc";
   myfile.open(argv[1]);
@@ -197,6 +228,38 @@ int main(int argc, char* argv[]) {
     return 0;
   }
 	myfile.close();
+////////////////////////////////second phase///////////////////////
+ifstream myfiles[2000];
+for(int i=1;i<=iteration;i++)
+{
+  string file = "firstsort" + to_string(i) + ".txt";
+	myfiles[i].open(file);
+}
+int count;
+ofstream ofs(argv[2], ios::out | ios::trunc);
+while(1)
+{
+count = 0;
+  for(int i=1;i<=iteration;i++)
+  {
+    if( !myfiles[i].eof())
+    {
+      streampos oldpos = myfiles[i].tellg();  // stores the position
+      getline(myfiles[i], a[count], '\n');
+      myfiles[i].seekg (oldpos);   // get back to the position
+      b[count] = i;
+      count +=1;
+    }
+  }
 
+  if (count == 0)
+  break;
+  sort_phase(column_name,cal,argv[4],count,val,no_of_lines);
+  cout << a[0] << "\n";
+  ofstream log(argv[2], ios_base::app | ios_base::out);
+  a[0] = a[0].substr(0, a[0].size());
+  log << a[0] << "\n";
+  getline(myfiles[b[0]], a[0], '\n');
+}
 	return 0;
 }
