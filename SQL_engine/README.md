@@ -1,4 +1,4 @@
-# SQL_search_engine
+# SQL Search Engine
 A mini SQL engine for database queries implemented in python which will run a subset of SQL Queries using command line interface.
 
 Instructions for running engine on Ubuntu:-
