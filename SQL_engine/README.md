@@ -10,3 +10,5 @@ Instructions for running engine on Ubuntu:-
 > chmod +777 201516178.sh
 4) Run the script
 > ./201516178.sh
+5) For detailed description please refer problem statement
+https://github.com/ArushiSinghal/DATABASES_assignment/blob/master/SQL_engine/DB%20Assignment%201.pdf
