@@ -16,8 +16,8 @@
 using namespace std;
 string a[6000000];
 long long int b[6000000];
-string left[6000000];
-string b1[6000000];
+string leff[6000000];
+long long int b1[6000000];
 
 int arrange(string split1[100],string split2[100],long long int cal,long long int column_name[1000],long long int i, long long int j, string a1)
 {
@@ -68,7 +68,6 @@ int arrange(string split1[100],string split2[100],long long int cal,long long in
   return 0;
 }
 
-
 void sort_phase(long long int column_name[1000],long long int cal,string a1,long long int num_of_record,string val[20][3],long long int num_rows)
 {
   string split1[100],split2[100];
@@ -98,41 +97,148 @@ void sort_phase(long long int column_name[1000],long long int cal,string a1,long
   return;
 }
 
-
-//void sort_first_merge(long long int column_name[1000],long long int cal,string a1,long long int num_of_record,string val[20][3],long long int num_rows)
-
-
-
-void sort(long long int column_name[1000],long long int cal,string a1,long long int num_of_record,string val[20][3],long long int num_rows)
+int Merge(long long int ini,long long int mid,long long int fin,long long int column_name[1000],long long int cal,string a1,string val[20][3],long long int num_rows)
 {
+  for(long long int i=ini;i<=mid;i++)
+  {
+    b1[i] = b[i];
+    leff[i] = a[i];
+	}
+	for(long int i=mid+1;i<=fin;i++)
+  {
+    b1[i] = b[i];
+    leff[i] = a[i];
+  }
+  long long int k =  ini;
+  long long int j = mid + 1;
+  long long int m = ini;
+	string aa = "asc";
   string split1[100],split2[100];
-  char spaceman = ' ';
-  long long int num1,num2;
-  for (long long int i=0;i<num_of_record;i++) {
-    int count11 = 0;
-    for (long long int f = 0;f<num_rows;f++)
+	if (a1 == aa)
+		{
+      while(k<=mid && j<=fin)
+      {
+          int count11 = 0;
+          for (long long int f = 0;f<num_rows;f++)
+          {
+            split1[f] = leff[k].substr(2*f+count11,stoi(val[f][1]));
+            split2[f] = leff[j].substr(2*f+count11,stoi(val[f][1]));
+            count11 += stoi(val[f][1]);
+          }
+          for (int i=0;i<cal;i++)
+          {
+            if (split1[column_name[i]].compare(split2[column_name[i]]) > 0)
+            {
+              a[m] = leff[j];
+              j++;
+              m++;
+              break;
+            }
+            else if (split1[column_name[i]].compare(split2[column_name[i]]) < 0)
+            {
+              a[m] = leff[k];
+              k++;
+              m++;
+              break;
+            }
+            else if(split1[column_name[i]].compare(split2[column_name[i]]) == 0 && i==cal-1)
+            {
+              if(b1[k] < b1[j])
+              {
+                a[m] = leff[k];
+                k++;
+                m++;
+              }
+              else
+              {
+                a[m] = leff[j];
+                j++;
+                m++;
+              }
+            }
+          }
+        }
+    while (k<=mid)
+		{
+			a[m] = leff[k];
+			m++;
+			k++;
+		}
+	while (j<=fin)
+		{
+			a[m] = leff[j];
+      m++;
+      j++;
+		}
+	}
+  else
+  {
+    while(k<=mid && j<=fin)
     {
-      split1[f] = a[i].substr(2*f+count11,stoi(val[f][1]));
-      count11 += stoi(val[f][1]);
-    }
-    num1 = num_rows;
-    for (long long int j=i+1;j<num_of_record;j++) {
-      int count11 = 0;
-      for (long long int f = 0;f<num_rows;f++)
-      {
-        split2[f] = a[j].substr(2*f+count11,stoi(val[f][1]));
-        count11 += stoi(val[f][1]);
+        int count11 = 0;
+        for (long long int f = 0;f<num_rows;f++)
+        {
+          split1[f] = leff[k].substr(2*f+count11,stoi(val[f][1]));
+          split2[f] = leff[j].substr(2*f+count11,stoi(val[f][1]));
+          count11 += stoi(val[f][1]);
+        }
+        for (int i=0;i<cal;i++)
+        {
+          if (split1[column_name[i]].compare(split2[column_name[i]]) < 0)
+          {
+            a[m] = leff[j];
+            j++;
+            m++;
+            break;
+          }
+          else if (split1[column_name[i]].compare(split2[column_name[i]]) > 0)
+          {
+            a[m] = leff[k];
+            k++;
+            m++;
+            break;
+          }
+          else if(split1[column_name[i]].compare(split2[column_name[i]]) == 0 && i==cal-1)
+          {
+            if(b1[k] < b1[j])
+            {
+              a[m] = leff[k];
+              k++;
+              m++;
+            }
+            else
+            {
+              a[m] = leff[j];
+              j++;
+              m++;
+            }
+          }
+        }
       }
-      num2 = num_rows;
-	int flag = arrange(split1,split2,cal,column_name,i,j,a1);
-      if (flag == 1)
-      {
-        for (int m=0;m<num2;m++)
-          split1[m] = split2[m];
-      }
-      }
-    }
-  return;
+  while (k<=mid)
+  {
+    a[m] = leff[k];
+    m++;
+    k++;
+  }
+  while (j<=fin)
+  {
+    a[m] = leff[j];
+    m++;
+    j++;
+  }
+  }
+	return 0;
+}
+void sort_first_merge(long long int column_name[1000],long long int cal,string a1,long long int num_of_record,long long int initial,string val[20][3],long long int num_rows)
+{
+ 		if(initial == num_of_record-1)
+		  return;
+		long long int mid = (initial+num_of_record-1)/2;
+    sort_first_merge(column_name,cal,a1,mid+1,initial,val,num_rows);
+    sort_first_merge(column_name,cal,a1,num_of_record,mid+1,val,num_rows);
+		Merge(initial,mid,num_of_record-1,column_name,cal,a1,val,num_rows);
+		return;
 }
 
 int main(int argc, char* argv[]) {
@@ -216,7 +322,8 @@ int main(int argc, char* argv[]) {
             getline(myfile, a[k], '\n');
             b[k] = k;
         }
-	sort (column_name,cal,argv[4],num_of_record,val,no_of_lines);
+	sort_first_merge(column_name,cal,argv[4],num_of_record,0,val,no_of_lines);
+	 //sort (column_name,cal,argv[4],num_of_record,val,no_of_lines);
           string filenames = "firstsort";
           filenames = filenames + to_string(l);
           filenames =  filenames + ".txt";
