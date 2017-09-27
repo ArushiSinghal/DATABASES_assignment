@@ -83,20 +83,17 @@ int hashing(long long int attributes)
 	ifstream fi;
 	fi.open(filenames);
 	string b,a;
-	ifstream myfiles[2000];
+	ifstream myfile;
 	for(int i=0;i<number_of_blocks;i++)
 	{
 		string file = "firstsort" + to_string(i) + ".csv";
-		myfiles[i].open(file);
+		myfile.open(file);
 		ofstream files(file, ios::out | ios::trunc);
-
 	}
 	for(i=0;i<total_tuples;i++)
 	{
 		getline(fi, a, '\n');
 		long long int count = 0;
-		if (i==total_tuples-1)
-		{
 			for(j=0;j<attributes-1;j++)
 			{
 				getline(input_file, data, ',');
@@ -104,15 +101,6 @@ int hashing(long long int attributes)
 			}
 			getline(input_file, data);
 			count += stoi(data);
-		}
-		else
-		{
-			for(j=0;j<attributes-1;j++)
-			{
-				getline(input_file, data, ',');
-				count += stoi(data);
-			}
-		}
 		count = count%(number_of_blocks);
 		string file = "firstsort" + to_string(count) + ".csv";
 		ofstream log(file, ios_base::app | ios_base::out);
@@ -147,12 +135,12 @@ int hashing(long long int attributes)
 		}
 		if (k==0)
 		{
-		string file = "secondsort" + to_string(i) + ".csv";
-		ofstream log(file, ios_base::app | ios_base::out);
-		log << p << "\n";
+			string file = "secondsort" + to_string(i) + ".csv";
+			ofstream log(file, ios_base::app | ios_base::out);
+			log << p << "\n";
+		}
 	}
-	 }
-	}
+}
   */
 	return 0;
 }
