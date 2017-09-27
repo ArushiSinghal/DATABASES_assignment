@@ -89,30 +89,27 @@ int hashing(long long int attributes)
 		string file = "firstsort" + to_string(i) + ".csv";
 		myfile.open(file);
 		ofstream files(file, ios::out | ios::trunc);
+		file = "secondsort" + to_string(i) + ".csv";
+		myfile.open(file);
+		ofstream files(file, ios::out | ios::trunc);
 	}
 	for(i=0;i<total_tuples;i++)
 	{
 		getline(fi, a, '\n');
 		long long int count = 0;
-			for(j=0;j<attributes-1;j++)
-			{
-				getline(input_file, data, ',');
-				count  += stoi(data);
-			}
-			getline(input_file, data);
-			count += stoi(data);
+		for(j=0;j<attributes-1;j++)
+		{
+			getline(input_file, data, ',');
+			count  += stoi(data);
+		}
+		getline(input_file, data);
+		count += stoi(data);
 		count = count%(number_of_blocks);
 		string file = "firstsort" + to_string(count) + ".csv";
 		ofstream log(file, ios_base::app | ios_base::out);
 		log << a << "\n";
 	}
 	/*
-	for(int i=0;i<number_of_blocks;i++)
-	{
-		file = "secondsort" + to_string(i) + ".csv";
-		myfiles[i].open(file);
-		ofstream files(file, ios::out | ios::trunc);
-  }
 	for(int i=0;i<number_of_blocks;i++)
 	{
 		string file = "firstsort" + to_string(i) + ".csv";
