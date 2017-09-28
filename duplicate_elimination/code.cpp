@@ -32,7 +32,8 @@ int input_file_generate(int attributes,int  duplicate, long long int block)
 	{
 		ifstream in(filenames, ifstream::ate | ifstream::binary);
 		long long int memory = in.tellg();
-		if(memory > 1073741824)
+		//if(memory > 1073741824)
+		if(memory > 10485760)
 			break;
 		ofstream log(filenames, std::ios_base::app | std::ios_base::out);
 		count += 1;
@@ -95,37 +96,35 @@ int hashing(long long int attributes)
 	{
 		getline(fi, a, '\n');
 		long long int count = 0;
-		for(j=0;j<attributes-1;j++)
+		//new
+		if(attributes == 1)
+		{
+			getline(input_file, data);
+			count += stoi(data);
+		}
+		else
 		{
 			getline(input_file, data, ',');
 			count  += stoi(data);
+			getline(input_file, data);
 		}
-		getline(input_file, data);
-		count += stoi(data);
+		//newends
+		/*
+		   for(j=0;j<attributes-1;j++)
+		   {
+		   getline(input_file, data, ',');
+		   count  += stoi(data);
+		   }
+		   getline(input_file, data);
+		   count += stoi(data);
+		 */
 		count = count%(number_of_blocks);
 		string file = "firstsort" + to_string(count) + ".csv";
 		ofstream log(file, ios_base::app | ios_base::out);
 		log << a << "\n";
 		log.close();
 	}
-/*
-	for(i=0;i<number_of_blocks;i++)
-	{
-	cout << "NEXT FILE\n";
-	string file = "firstsort" + to_string(i) + ".csv";
-	ifstream x;
-	x.open(file);
-	string pp;
-	int k = 0;
-	while(getline(x, pp, '\n'))
-	{
-	//getline(x, pp, '\n');
-	cout << pp << "\n";
-	 k +=1;
-	}
-}
-*/
-fi.close();
+	fi.close();
 	for(int i=0;i<number_of_blocks;i++)
 	{
 		string file = "firstsort" + to_string(i) + ".csv";
