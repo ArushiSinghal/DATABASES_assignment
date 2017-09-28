@@ -32,7 +32,8 @@ int input_file_generate(int attributes,int  duplicate, long long int block)
 	{
 		ifstream in(filenames, ifstream::ate | ifstream::binary);
 		long long int memory = in.tellg();
-		if(memory > 1073741824)
+		//if(memory > 1073741824)
+		if(memory > 107)
 			break;
 		ofstream log(filenames, std::ios_base::app | std::ios_base::out);
 		count += 1;
@@ -79,18 +80,16 @@ int hashing(long long int attributes)
 {
 	ifstream input_file(filenames);
 	long long int i,j;
-	string data;
-	ifstream fi;
+	ifstream myfile,fi;
 	fi.open(filenames);
-	string b,a;
-	ifstream myfile;
+	string b,a,data;
+	ofstream f(output_file, ios::out | ios::trunc);
+	f.close();
 	for(int i=0;i<number_of_blocks;i++)
 	{
 		string file = "firstsort" + to_string(i) + ".csv";
-		myfile.open(file);
 		ofstream files(file, ios::out | ios::trunc);
 		file = "secondsort" + to_string(i) + ".csv";
-		myfile.open(file);
 		ofstream fil(file, ios::out | ios::trunc);
 	}
 	for(i=0;i<total_tuples;i++)
@@ -108,39 +107,69 @@ int hashing(long long int attributes)
 		string file = "firstsort" + to_string(count) + ".csv";
 		ofstream log(file, ios_base::app | ios_base::out);
 		log << a << "\n";
+		log.close();
 	}
-	fi.close();
-
+/*
+	for(i=0;i<number_of_blocks;i++)
+	{
+	cout << "NEXT FILE\n";
+	string file = "firstsort" + to_string(i) + ".csv";
+	ifstream x;
+	x.open(file);
+	string pp;
+	int k = 0;
+	while(getline(x, pp, '\n'))
+	{
+	//getline(x, pp, '\n');
+	cout << pp << "\n";
+	 k +=1;
+	}
+}
+*/
+fi.close();
 	for(int i=0;i<number_of_blocks;i++)
 	{
 		string file = "firstsort" + to_string(i) + ".csv";
 		ifstream file_check(file);
 		string p,c;
-		while(!file_check.eof())
+		while(getline(file_check, p, '\n'))
 		{
-			getline(file_check, p, '\n');
+			//getline(file_check, p, '\n');
 			string dupl_file = "secondsort" + to_string(i) + ".csv";
 			ifstream no_duplicate(dupl_file);
 			int  k =0;
-			while(!no_duplicate.eof())
+			while(getline(no_duplicate, c, '\n'))
 			{
-				getline(no_duplicate, c, '\n');
+				//getline(no_duplicate, c, '\n');
 				if (p==c)
 				{
 					k = 1;
 					break;
 				}
 			}
+			no_duplicate.close();
 			if (k==0)
 			{
 				string file = "secondsort" + to_string(i) + ".csv";
 				ofstream log(file, ios_base::app | ios_base::out);
 				log << p << "\n";
+				log.close();
 			}
 		}
+		ofstream log(output_file, ios_base::app | ios_base::out);
+		string 	dupl_file = "secondsort" + to_string(i) + ".csv";
+		ifstream dup(dupl_file);
+		while(getline(dup, c, '\n'))
+		{
+			log << c << "\n";
+		}
+		log.close();
+		dup.close();
 	}
 	return 0;
 }
+
+
 int btree()
 {
 	return 0;
