@@ -34,7 +34,7 @@ int input_file_generate(int  duplicate, long long int block)
 		long long int memory = in.tellg();
 		//if(memory > 1073741824)
 		//	break;
-		if(memory > 100*1024*1024)
+		if(memory > 500*1024*1024)
 			break;
 		ofstream log(filenames, std::ios_base::app | std::ios_base::out);
 		count += 1;
@@ -108,7 +108,6 @@ int hashing(long long int attributes)
 		{
 			getline(input_file, data, ',');
 			count  += stoi(data);
-			//cout << data << "\n";
 			getline(input_file, data);
 		}
 		count = count%(number_of_blocks);
