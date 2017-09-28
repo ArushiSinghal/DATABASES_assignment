@@ -91,7 +91,7 @@ int hashing(long long int attributes)
 		ofstream files(file, ios::out | ios::trunc);
 		file = "secondsort" + to_string(i) + ".csv";
 		myfile.open(file);
-		ofstream files(file, ios::out | ios::trunc);
+		ofstream fil(file, ios::out | ios::trunc);
 	}
 	for(i=0;i<total_tuples;i++)
 	{
@@ -109,7 +109,8 @@ int hashing(long long int attributes)
 		ofstream log(file, ios_base::app | ios_base::out);
 		log << a << "\n";
 	}
-	/*
+	fi.close();
+
 	for(int i=0;i<number_of_blocks;i++)
 	{
 		string file = "firstsort" + to_string(i) + ".csv";
@@ -118,27 +119,26 @@ int hashing(long long int attributes)
 		while(!file_check.eof())
 		{
 			getline(file_check, p, '\n');
-			file = "secondsort" + to_string(i) + ".csv";
-			ifstrem no_duplicate(secondsort)
+			string dupl_file = "secondsort" + to_string(i) + ".csv";
+			ifstream no_duplicate(dupl_file);
 			int  k =0;
 			while(!no_duplicate.eof())
 			{
-			getline(no_duplicate, c, '\n');
-			if (p==c)
+				getline(no_duplicate, c, '\n');
+				if (p==c)
+				{
+					k = 1;
+					break;
+				}
+			}
+			if (k==0)
 			{
-			k = 1;
-			break;
-		}
-		}
-		if (k==0)
-		{
-			string file = "secondsort" + to_string(i) + ".csv";
-			ofstream log(file, ios_base::app | ios_base::out);
-			log << p << "\n";
+				string file = "secondsort" + to_string(i) + ".csv";
+				ofstream log(file, ios_base::app | ios_base::out);
+				log << p << "\n";
+			}
 		}
 	}
-}
-  */
 	return 0;
 }
 int btree()
