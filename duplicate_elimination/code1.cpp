@@ -33,7 +33,8 @@ int input_file_generate(int  duplicate, long long int block)
 		ifstream in(filenames, ifstream::ate | ifstream::binary);
 		long long int memory = in.tellg();
 		//if(memory > 1073741824)
-		if(memory > 10485760)
+		//	break;
+		if(memory > 100*1024*1024)
 			break;
 		ofstream log(filenames, std::ios_base::app | std::ios_base::out);
 		count += 1;
@@ -89,8 +90,10 @@ int hashing(long long int attributes)
 	{
 		string file = "firstsort" + to_string(i) + ".csv";
 		ofstream files(file, ios::out | ios::trunc);
+		files.close();
 		file = "secondsort" + to_string(i) + ".csv";
 		ofstream fil(file, ios::out | ios::trunc);
+		fil.close();
 	}
 	for(i=0;i<total_tuples;i++)
 	{
@@ -105,6 +108,7 @@ int hashing(long long int attributes)
 		{
 			getline(input_file, data, ',');
 			count  += stoi(data);
+			//cout << data << "\n";
 			getline(input_file, data);
 		}
 		count = count%(number_of_blocks);
@@ -114,6 +118,7 @@ int hashing(long long int attributes)
 		log.close();
 	}
 	fi.close();
+	input_file.close();
 	for(int i=0;i<number_of_blocks;i++)
 	{
 		string file = "firstsort" + to_string(i) + ".csv";
@@ -126,7 +131,7 @@ int hashing(long long int attributes)
 			fil.close();
 		}
 		string p,c,data;
-		while(getline(file_check, p, '\n'))
+		while(getline(file_check, p))
 		{
 			int count = 0;
 			for(j=0;j<attributes-1;j++)
@@ -140,9 +145,8 @@ int hashing(long long int attributes)
 			string dupl_file = "secondsort" + to_string(count) + ".csv";
 			ifstream no_duplicate(dupl_file);
 			int  k =0;
-			while(getline(no_duplicate, c, '\n'))
+			while(getline(no_duplicate, c))
 			{
-				//getline(no_duplicate, c, '\n');
 				if (p==c)
 				{
 					k = 1;
@@ -164,7 +168,7 @@ int hashing(long long int attributes)
 		{
 		string 	dupl_file = "secondsort" + to_string(l) + ".csv";
 		ifstream dup(dupl_file);
-		while(getline(dup, c, '\n'))
+		while(getline(dup, c))
 		{
 			log << c << "\n";
 		}
