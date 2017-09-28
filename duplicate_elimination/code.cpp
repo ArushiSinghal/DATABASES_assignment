@@ -32,8 +32,7 @@ int input_file_generate(int attributes,int  duplicate, long long int block)
 	{
 		ifstream in(filenames, ifstream::ate | ifstream::binary);
 		long long int memory = in.tellg();
-		//if(memory > 1073741824)
-		if(memory > 107)
+		if(memory > 1073741824)
 			break;
 		ofstream log(filenames, std::ios_base::app | std::ios_base::out);
 		count += 1;
