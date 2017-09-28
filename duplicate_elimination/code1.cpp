@@ -16,12 +16,12 @@
 #include <ios>
 #include <ctime>
 using namespace std;
-long long int distinct_tuples, tuples_one_block, total_tuples, number_of_blocks;
+long long int distinct_tuples, tuples_one_block, total_tuples, number_of_blocks,attributes;
 string filenames =  "input.csv";
 string output_file = "output.csv";
 
 /**************************** INPUT FILE GENERATION ********************************/
-int input_file_generate(int attributes,int  duplicate, long long int block)
+int input_file_generate(int  duplicate, long long int block)
 {
 	int j,i;
 	string A[100];
@@ -96,7 +96,6 @@ int hashing(long long int attributes)
 	{
 		getline(fi, a, '\n');
 		long long int count = 0;
-		//new
 		if(attributes == 1)
 		{
 			getline(input_file, data);
@@ -108,16 +107,6 @@ int hashing(long long int attributes)
 			count  += stoi(data);
 			getline(input_file, data);
 		}
-		//newends
-		/*
-		   for(j=0;j<attributes-1;j++)
-		   {
-		   getline(input_file, data, ',');
-		   count  += stoi(data);
-		   }
-		   getline(input_file, data);
-		   count += stoi(data);
-		 */
 		count = count%(number_of_blocks);
 		string file = "firstsort" + to_string(count) + ".csv";
 		ofstream log(file, ios_base::app | ios_base::out);
@@ -130,7 +119,7 @@ int hashing(long long int attributes)
 		string file = "firstsort" + to_string(i) + ".csv";
 		ifstream file_check(file);
 		ifstream file_checkers(file);
-		for(int j=0;i<number_of_blocks;j++)
+		for(int j=0;j<number_of_blocks;j++)
 		{
 			file = "secondsort" + to_string(j) + ".csv";
 			ofstream fil(file, ios::out | ios::trunc);
@@ -140,15 +129,14 @@ int hashing(long long int attributes)
 		while(getline(file_check, p, '\n'))
 		{
 			int count = 0;
-                  	for(j=0;j<attributes-1;j++)
-                   		{
-					getline(file_checkers, data, ',');
-					count  += stoi(data);
-                   		}
-                   	getline(file_checkers, data);
-                   	count += stoi(data);
+			for(j=0;j<attributes-1;j++)
+			{
+				getline(file_checkers, data, ',');
+				count  += stoi(data);
+			}
+			getline(file_checkers, data);
+			count += stoi(data);
 			count = count%(number_of_blocks);
-			//getline(file_check, p, '\n');
 			string dupl_file = "secondsort" + to_string(count) + ".csv";
 			ifstream no_duplicate(dupl_file);
 			int  k =0;
@@ -172,7 +160,7 @@ int hashing(long long int attributes)
 		}
 		ofstream log(output_file, ios_base::app | ios_base::out);
 		int l =0;
-		for(l=0;i<number_of_blocks;l++)
+		for(l=0;l<number_of_blocks;l++)
 		{
 		string 	dupl_file = "secondsort" + to_string(l) + ".csv";
 		ifstream dup(dupl_file);
@@ -189,16 +177,18 @@ int hashing(long long int attributes)
 	return 0;
 }
 
-
+///B-TREE  STARTS
 int btree()
 {
 	return 0;
 }
+////// B-TREE CODES END////
 
 int main(int argc, char* argv[])
 {
 	//Attribute, duplicacy percentage, number of blocks in main memory, type_of_index
-	input_file_generate(stoi(argv[1]),stoi(argv[2]), stoi(argv[3]));
+	attributes = stoi(argv[1]);
+	input_file_generate(stoi(argv[2]), stoi(argv[3]));
 	number_of_blocks = stoi(argv[3]);
 	string index_type =  argv[4];
 	string a = "hash";
