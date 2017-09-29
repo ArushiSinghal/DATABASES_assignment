@@ -90,27 +90,37 @@ public:
 };
 HashMap hash_;
 /**************  duplicacy elimination using two phase hashing **********************************************/
-int hashing(long long int attributes)
+int get_next_hashing(ifstream fi,ofstream log)
 {
-	ifstream input_file(filenames);
-	long long int i,j;
-	ifstream myfile,fi;
-	fi.open(filenames);
 	string b,a,data;
-	ofstream f(output_file, ios::out | ios::trunc);
-	f.close();
-	ofstream log(output_file, ios_base::app | ios_base::out);
 	while(getline(fi,a))
 	{
 		if(hash_.search(a));
 		else {
-		hash_.insert(a);
-		log << a << "\n";
+			hash_.insert(a);
+			log << a << "\n";
 		}	
 	}
 	fi.close();
 	log.close();
 	return 0;
+}
+
+int open(string a)
+{
+string check1 = "hash";
+string check2 = "btree";
+if (a == check1)
+{
+	ifstream fi;
+	fi.open(filenames);
+	ofstream f(output_file, ios::out | ios::trunc);
+	f.close();
+	ofstream log(output_file, ios_base::app | ios_base::out);
+	get_next_hashing(fi,log);
+}
+//else if (a == check2)
+//get_next_btree();
 }
 
 int main(int argc, char* argv[])
@@ -120,8 +130,6 @@ int main(int argc, char* argv[])
 	input_file_generate(stoi(argv[2]), stoi(argv[3]));
 	number_of_blocks = stoi(argv[3]);
 	string index_type =  argv[4];
-	string a = "hash";
-	if (a == index_type)
-		hashing(stoi(argv[1]));
+	open(index_type)
 	return 0;
 }
