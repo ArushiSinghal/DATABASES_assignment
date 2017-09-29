@@ -76,6 +76,19 @@ int input_file_generate(int  duplicate, long long int block)
 	return 0;
 }
 
+class HashMap {
+	unordered_map<string, bool> recordPresence;
+public:
+	bool search(string key) {
+		if(recordPresence.find(key) == recordPresence.end()) return false;
+		return true;
+	}
+	void insert(string key) {
+		if(search(key)==false)
+			recordPresence[key]=true;
+	}
+};
+HashMap hash_;
 /**************  duplicacy elimination using two phase hashing **********************************************/
 int hashing(long long int attributes)
 {
@@ -86,106 +99,19 @@ int hashing(long long int attributes)
 	string b,a,data;
 	ofstream f(output_file, ios::out | ios::trunc);
 	f.close();
-	for(int i=0;i<number_of_blocks;i++)
+	ofstream log(output_file, ios_base::app | ios_base::out);
+	while(getline(fi,a))
 	{
-		string file = "firstsort" + to_string(i) + ".csv";
-		ofstream files(file, ios::out | ios::trunc);
-		files.close();
-		file = "secondsort" + to_string(i) + ".csv";
-		ofstream fil(file, ios::out | ios::trunc);
-		fil.close();
-	}
-	for(i=0;i<total_tuples;i++)
-	{
-		getline(fi, a, '\n');
-		long long int count = 0;
-		if(attributes == 1)
-		{
-			getline(input_file, data);
-			count += stoi(data);
-		}
-		else
-		{
-			getline(input_file, data, ',');
-			count  += stoi(data);
-			getline(input_file, data);
-		}
-		count = count%(number_of_blocks);
-		string file = "firstsort" + to_string(count) + ".csv";
-		ofstream log(file, ios_base::app | ios_base::out);
+		if(hash_.search(a));
+		else {
+		hash_.insert(a);
 		log << a << "\n";
-		log.close();
+		}	
 	}
 	fi.close();
-	input_file.close();
-	for(int i=0;i<number_of_blocks;i++)
-	{
-		string file = "firstsort" + to_string(i) + ".csv";
-		ifstream file_check(file);
-		ifstream file_checkers(file);
-		for(int j=0;j<number_of_blocks;j++)
-		{
-			file = "secondsort" + to_string(j) + ".csv";
-			ofstream fil(file, ios::out | ios::trunc);
-			fil.close();
-		}
-		string p,c,data;
-		while(getline(file_check, p))
-		{
-			int count = 0;
-			for(j=0;j<attributes-1;j++)
-			{
-				getline(file_checkers, data, ',');
-				count  += stoi(data);
-			}
-			getline(file_checkers, data);
-			count += stoi(data);
-			count = count%(number_of_blocks);
-			string dupl_file = "secondsort" + to_string(count) + ".csv";
-			ifstream no_duplicate(dupl_file);
-			int  k =0;
-			while(getline(no_duplicate, c))
-			{
-				if (p==c)
-				{
-					k = 1;
-					break;
-				}
-			}
-			no_duplicate.close();
-			if (k==0)
-			{
-				string file = "secondsort" + to_string(count) + ".csv";
-				ofstream log(file, ios_base::app | ios_base::out);
-				log << p << "\n";
-				log.close();
-			}
-		}
-		ofstream log(output_file, ios_base::app | ios_base::out);
-		int l =0;
-		for(l=0;l<number_of_blocks;l++)
-		{
-		string 	dupl_file = "secondsort" + to_string(l) + ".csv";
-		ifstream dup(dupl_file);
-		while(getline(dup, c))
-		{
-			log << c << "\n";
-		}
-		dup.close();
-		}
-		log.close();
-		file_check.close();
-		file_checkers.close();
-	}
+	log.close();
 	return 0;
 }
-
-///B-TREE  STARTS
-int btree()
-{
-	return 0;
-}
-////// B-TREE CODES END////
 
 int main(int argc, char* argv[])
 {
@@ -197,7 +123,5 @@ int main(int argc, char* argv[])
 	string a = "hash";
 	if (a == index_type)
 		hashing(stoi(argv[1]));
-	else
-		btree();
 	return 0;
 }
