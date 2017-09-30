@@ -1,3 +1,4 @@
+#include <unordered_map>
 #include <bits/stdc++.h>
 #include <iostream>
 #include <fstream>
@@ -86,6 +87,11 @@ class HashMap {
 		if(recordPresence.find(key) == recordPresence.end()) return false;
 		return true;
 	}
+	void clearing()
+	{
+		recordPresence.clear();
+		return;
+	}
 	void insert(string key) {
 		if(search(key)==false)
 			recordPresence[key]=true;
@@ -100,7 +106,7 @@ int hashing(long long int attributes)
 {
 	ifstream input_file(filenames);
 	long long int i,j;
-	ifstream myfile,fi;
+	ifstream fi;
 	fi.open(filenames);
 	string b,a,data;
 	ofstream f(output_file, ios::out | ios::trunc);
@@ -151,6 +157,7 @@ int hashing(long long int attributes)
 		}
 		file_check.close();
 		const char * filename = file.c_str(); 
+		hash_[i].clearing();
 		remove(filename);
 	}
 	log.close();
