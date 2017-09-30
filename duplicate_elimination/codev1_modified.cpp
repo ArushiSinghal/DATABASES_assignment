@@ -15,6 +15,7 @@
 #include <cstring>
 #include <ios>
 #include <ctime>
+#include <cstdio>
 using namespace std;
 long long int distinct_tuples, tuples_one_block, total_tuples, number_of_blocks,attributes;
 string filenames =  "input.csv";
@@ -149,6 +150,8 @@ int hashing(long long int attributes)
 
 		}
 		file_check.close();
+		const char * filename = file.c_str(); 
+		remove(filename);
 	}
 	log.close();
 	return 0;
