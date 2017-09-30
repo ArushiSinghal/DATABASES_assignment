@@ -287,7 +287,6 @@ class BTree {
 	}
 };
 
-BTree tree[1000];
 void get_next_btree() {
 	ifstream input_file(filenames);
 	long long int i,j;
@@ -328,6 +327,7 @@ void get_next_btree() {
 	ofstream log(output_file, ios_base::app | ios_base::out);
 	for(int i=0;i<number_of_blocks;i++)
 	{
+		BTree tree;
 		string file = "firstsort" + to_string(i) + ".csv";
 		ifstream fi(file);
 		string line;
@@ -339,9 +339,9 @@ void get_next_btree() {
 			while(getline(linestream, curnum, ',')) {
 				record.push_back(stoi(curnum));
 			}
-			if(tree[i].search(record));
+			if(tree.search(record));
 			else {
-				tree[i].insert(record);
+				tree.insert(record);
 				log << line << "\n";
 			}
 		}

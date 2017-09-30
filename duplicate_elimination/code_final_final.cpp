@@ -23,7 +23,7 @@ string filenames =  "input.csv";
 string output_file = "output.csv";
 
 ifstream input_file;
-ofstream log;
+ofstream log1;
 
 #define BTREE_MINDEG 20
 #define LC(veca, vecb) lexicographical_compare(veca.begin(), veca.end(), \
@@ -108,7 +108,7 @@ class HashMap {
 HashMap hash_[1000];
 
 /****************************************************************************************/
-int hashing()
+int get_next_hashing()
 {
 	for(int i=0;i<number_of_blocks;i++)
 	{
@@ -120,7 +120,7 @@ int hashing()
 			if(hash_[i].search(a));
 			else {
 				hash_[i].insert(a);
-				log << a << "\n";
+				log1 << a << "\n";
 			}
 
 		}
@@ -271,7 +271,7 @@ void get_next_btree() {
 			if(tree[i].search(record));
 			else {
 				tree[i].insert(record);
-				log << line << "\n";
+				log1 << line << "\n";
 			}
 		}
 		fi.close();
@@ -284,7 +284,7 @@ void get_next_btree() {
 void close()
 {
 input_file.close();
-log.close();
+log1.close();
 return;
 }
 
@@ -330,7 +330,7 @@ void open()
 	ofstream f(output_file, ios::out | ios::trunc);
 	f.close();
 	input_file.open(filenames);
-        log.open(output_file, ios_base::app | ios_base::out);
+        log1.open(output_file, ios_base::app | ios_base::out);
 	return;
 }
 
@@ -346,8 +346,8 @@ int main(int argc, char* argv[])
 	string a = "hash";
 	string b = "btree";
 	if (a == index_type)
-		hashing();
-	else if (b= index_type)
+		get_next_hashing();
+	else if (b== index_type)
 		get_next_btree();
 	close();
 	return 0;
