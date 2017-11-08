@@ -17,30 +17,32 @@
 using namespace std;
 int main(int argc, char* argv[])
 {
-	//string r_filename_path =  argv[1];
-	//string s_filename_path =  argv[2];
-	//string type = argv[3];
-	//long long int buff  =argv[4];
-	long long int var1 = strlen(r_filename);
-	long long int var2 = strlen(s_filename);
-	for(int i=var1-1;i>=0;i++)
+	string r_filename_path =  argv[1];
+	string s_filename_path =  argv[2];
+	string type = argv[3];
+	long long int buff  = stoi(argv[4]);
+	long long int var1 = r_filename_path.length();
+	long long int var2 = s_filename_path.length();
+	int i;
+	for(i=var1-1;i>=0;i--)
 	{
-		if (r_filename == '\')	
+		if (r_filename_path[i] == '/')	
 		{
 			break;
 		}
 	}
-	string r_filename = str.substr(i+1,var1-i-1); 
-	for(int i=var2-1;i>=0;i++)
+	cout << i << endl;
+	string r_filename = r_filename_path.substr(i+1,var1-i-1); 
+	for(i=var2-1;i>=0;i--)
         {
-                if (r_filename == '\')  
+                if (s_filename_path[i] == '/')  
                 {
                         break;
                 }
         }
-	string s_filename = str.substr(i+1,var2-i-1);
-	cout << r_filename << endl; // file.ext
-	cout << s_filename << endl;     // file 
-
+	cout << i << endl;
+	string s_filename = s_filename_path.substr(i+1,var2-i-1);
+	string output_file = s_filename + "_" + r_filename + "_" + "join";
+	cout << output_file << endl; 
 	return 0;
 }
