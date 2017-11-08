@@ -43,6 +43,7 @@ int main(int argc, char* argv[])
 	cout << i << endl;
 	string s_filename = s_filename_path.substr(i+1,var2-i-1);
 	string output_file = s_filename + "_" + r_filename + "_" + "join";
+	ofstream ofs (output_file, ios::out | ios::trunc);
 	cout << output_file << endl; 
 	return 0;
 }
