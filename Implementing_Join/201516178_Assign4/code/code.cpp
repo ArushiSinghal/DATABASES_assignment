@@ -279,14 +279,30 @@ int main(int argc, char* argv[])
 		}
 		else if (var2 < var1)
 		{
-			myfile.seekg (oldpos);
+			myfile2.seekg (oldpos);
 		}
 		else
 		{
-			
+			out = to_string(aa) + " " + to_string(bb) + " " + to_string(dd);
 			ofstream ofs(output_file, ios_base::app | ios_base::out);
   			ofs << out << "\n";
+			while(getline(myfile1, line2))
+			{
+				  istringstream twonumbers3;
+				  twonumbers3.str(line2);
+                		  twonumbers3 >> cc >> dd;
+                		  var2 = cc;
+				  if (var2 == var1)
+					{
+					  out = to_string(aa) + " " + to_string(bb) + " " + to_string(dd);
+					  ofstream ofs(output_file, ios_base::app | ios_base::out);
+                        		  ofs << out << "\n";
 
+					}
+				  else
+					break;	
+			}
+			myfile2.seekg(oldpos);	
 		}
 	}
 	return 0;
