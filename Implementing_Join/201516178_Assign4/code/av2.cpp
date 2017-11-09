@@ -28,9 +28,6 @@ int Merge_second(long long int ini,long long int mid,long long int fin)
 	long long int k =  ini;
 	long long int j = mid + 1;
 	long long int m = ini;
-	cout << k << endl;
-	cout << j << endl;
-	cout << m << endl;
 	while(k<=mid && j<=fin)
 	{
 		long long int var1, var2;
@@ -71,9 +68,6 @@ int Merge_second(long long int ini,long long int mid,long long int fin)
 		m++;
 		j++;
 	}
-	for(int i=ini;i<=fin;i++)
-		cout << a[i] << " ";
-	cout << endl;
 	return 0;
 }
 
@@ -86,25 +80,17 @@ int Merge(long long int ini,long long int mid,long long int fin)
 	long long int k =  ini;
 	long long int j = mid + 1;
 	long long int m = ini;
-	cout << k << endl;
-        cout << fin << endl;
-	cout << "mid" << mid << endl;
-	cout << "fin" << fin << endl;
 	while(k<=mid && j<=fin)
 	{
-		cout << k << endl;
-		cout << j << endl;
 		long long int var1, var2;
 		int aa, bb;
 		istringstream twonumbers,twonumbers1;
 		twonumbers.str(leff[k]);
 		twonumbers >> aa >> bb;
 		var1 = bb;
-		cout << bb << endl;
 		twonumbers1.str(leff[j]);
 		twonumbers1 >> aa >> bb;
 		var2 = bb;
-		cout << bb << endl;
 		if (var2 <= var1)
 		{
 			a[m] = leff[j];
@@ -130,9 +116,6 @@ int Merge(long long int ini,long long int mid,long long int fin)
 		m++;
 		j++;
 	}
-	for(int i=ini;i<=fin;i++)
-                cout << a[i] << " ";
-        cout << endl;
 	return 0;
 }
 void sorting(long long int num_of_record,long long int initial, int flag)
