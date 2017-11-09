@@ -1,7 +1,3 @@
-#include <string>
-#include <iterator>
-#include <iostream>
-#include <stdlib.h>
 #include <time.h>
 #include <algorithm>
 #include <stdexcept>
@@ -17,11 +13,15 @@
 #include <bits/stdc++.h>
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <iterator>
+#include <iostream>
+#include <stdlib.h>
 
 using namespace std;
+long long int distinct_tuples, tuples_one_block, total_tuples, number_of_blocks, attributes;
 string filenames =  "input.csv";
 string output_file = "output.csv";
-long long int distinct_tuples, tuples_one_block, total_tuples, number_of_blocks, attributes;
 
 ifstream input_file;
 ofstream log1;
@@ -30,7 +30,7 @@ ofstream log1;
 #define LC(veca, vecb) lexicographical_compare(veca.begin(), veca.end(), \
 		vecb.begin(), vecb.end())
 /**************************** INPUT FILE GENERATION ********************************/
-int file_generation(int  duplicate, long long int block)
+int input_file_generate(int  duplicate, long long int block)
 {
 	int j,i;
 	string A[100];
@@ -293,47 +293,41 @@ class BTree {
 
 BTree tree[1000];
 void get_next_btree() {
-	long long int i;
-        ifstream fi;
-        fi.open(filenames);
-        string a,data,line;
-	for(int i=0;i<total_tuples;i++)
+	for(int i=0;i<number_of_blocks;i++)
 	{
-		getline(fi,line);
-		long long int count = 0;
-                if(attributes == 1)
-                {
-                        getline(input_file, data);
-                        count += stoi(data);
-                }
-                else
-                {
-                        getline(input_file, data, ',');
-                        count  += stoi(data);
-                        getline(input_file, data);
-                }
-                count = count%(number_of_blocks);
-		stringstream linestream(line);
-		string variable_cur;
-		vector<int> record;
-		while(getline(linestream, variable_cur, ',')) {
-			record.push_back(stoi(variable_cur));
+		string file = "firstsort" + to_string(i) + ".csv";
+		ifstream fi(file);
+		string line;
+		while(getline(fi,line))
+		{
+			stringstream linestream(line);
+			string curnum;
+			vector<int> record;
+			while(getline(linestream, curnum, ',')) {
+				record.push_back(stoi(curnum));
+			}
+			if(tree[i].search(record));
+			else {
+				tree[i].insert(record);
+				log1 << line << "\n";
+			}
 		}
-		if(tree[count].search(record));
-		else {
-			tree[count].insert(record);
-			log1 << line << "\n";
-		}
+		fi.close();
+		const char * filename = file.c_str();
+		remove(filename);
 	}
-	fi.close();
 	return;
 }
+
 void close()
 {
 input_file.close();
 log1.close();
 return;
 }
+
+
+
 void open()
 {
 	ofstream f(output_file, ios::out | ios::trunc);
@@ -347,18 +341,16 @@ int main(int argc, char* argv[])
 {
 	//Attribute, duplicacy percentage, number of blocks in main memory, type_of_index
 	attributes = stoi(argv[1]);
-	file_generation(stoi(argv[2]), stoi(argv[3]));
+	input_file_generate(stoi(argv[2]), stoi(argv[3]));
 	number_of_blocks = stoi(argv[3]);
 	string index_type =  argv[4];
 	open();
+	first_phase();
 	string a = "hash";
 	string b = "btree";
 	if (a == index_type)
-		{
-		first_phase();
 		get_next_hashing();
-		}
-	else if (b == index_type)
+	else if (b== index_type)
 		get_next_btree();
 	close();
 	return 0;
