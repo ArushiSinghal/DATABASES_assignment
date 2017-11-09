@@ -244,8 +244,8 @@ int main(int argc, char* argv[])
         }
 	string s_filename = s_filename_path.substr(i+1,var2-i-1);
 	string output_file = r_filename + "_" + s_filename + "_" + "join";
-	ofstream ofs (output_file, ios::out | ios::trunc);
-	ofs.close();
+	ofstream v(output_file, ios::out | ios::trunc);
+	v.close();
 	flag_sort = 0;
 	main_function(r_filename_path, output1_sort,buff);
 	flag_sort = 1;
@@ -253,6 +253,7 @@ int main(int argc, char* argv[])
 	ifstream myfile,myfile1;
 	myfile.open(output1_sort);
 	myfile1.open(output2_sort);
+	ofstream ofs(output_file, ios_base::app | ios_base::out);
 	while(1)
 	{
 		string line1, line2, out;
@@ -288,7 +289,7 @@ int main(int argc, char* argv[])
 		{
 			//out = to_string(aa) + " " + to_string(bb) + " " + to_string(dd);
 			out = aaa + " " + bbb + " " + ddd;
-			ofstream ofs(output_file, ios_base::app | ios_base::out);
+			//ofstream ofs(output_file, ios_base::app | ios_base::out);
   			ofs << out << "\n";
 			while(getline(myfile1, line2))
 			{
@@ -302,7 +303,7 @@ int main(int argc, char* argv[])
 					{
 					  //out = to_string(aa) + " " + to_string(bb) + " " + to_string(dd);
 					  out = aaa + " " + bbb + " " + ddd;
-					  ofstream ofs(output_file, ios_base::app | ios_base::out);
+					  //ofstream ofs(output_file, ios_base::app | ios_base::out);
                         		  ofs << out << "\n";
 					}
 				  else
@@ -311,5 +312,8 @@ int main(int argc, char* argv[])
 			myfile1.seekg(oldpos1);	
 		}
 	}
+	ofs.close();
+	myfile.close();
+	myfile1.close();
 	return 0;
 }
