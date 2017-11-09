@@ -255,39 +255,29 @@ class BTree {
 
 BTree tree[1000];
 void get_next_btree() {
-	long long int i;
-        ifstream fi;
-        fi.open(filenames);
-        string a,data,line;
-	for(int i=0;i<total_tuples;i++)
+	for(int i=0;i<number_of_blocks;i++)
 	{
-		getline(fi,line);
-		long long int count = 0;
-                if(attributes == 1)
-                {
-                        getline(input_file, data);
-                        count += stoi(data);
-                }
-                else
-                {
-                        getline(input_file, data, ',');
-                        count  += stoi(data);
-                        getline(input_file, data);
-                }
-                count = count%(number_of_blocks);	
-		stringstream linestream(line);
-		string curnum;
-		vector<int> record;
-		while(getline(linestream, curnum, ',')) {
-			record.push_back(stoi(curnum));
+		string file = "firstsort" + to_string(i) + ".csv";
+		ifstream fi(file);
+		string line;
+		while(getline(fi,line))
+		{
+			stringstream linestream(line);
+			string curnum;
+			vector<int> record;
+			while(getline(linestream, curnum, ',')) {
+				record.push_back(stoi(curnum));
+			}
+			if(tree[i].search(record));
+			else {
+				tree[i].insert(record);
+				log1 << line << "\n";
+			}
 		}
-		if(tree[count].search(record));
-		else {
-			tree[count].insert(record);
-			log1 << line << "\n";
-		}
+		fi.close();
+		const char * filename = file.c_str();
+		remove(filename);
 	}
-	fi.close();
 	return;
 }
 
@@ -352,13 +342,11 @@ int main(int argc, char* argv[])
 	number_of_blocks = stoi(argv[3]);
 	string index_type =  argv[4];
 	open();
+	first_phase();
 	string a = "hash";
 	string b = "btree";
 	if (a == index_type)
-		{
-		first_phase();
 		get_next_hashing();
-		}
 	else if (b== index_type)
 		get_next_btree();
 	close();
