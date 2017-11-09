@@ -234,7 +234,6 @@ int main(int argc, char* argv[])
 			break;
 		}
 	}
-	cout << i << endl;
 	string r_filename = r_filename_path.substr(i+1,var1-i-1); 
 	for(i=var2-1;i>=0;i--)
         {
@@ -243,7 +242,6 @@ int main(int argc, char* argv[])
                         break;
                 }
         }
-	cout << i << endl;
 	string s_filename = s_filename_path.substr(i+1,var2-i-1);
 	string output_file = r_filename + "_" + s_filename + "_" + "join";
 	ofstream ofs (output_file, ios::out | ios::trunc);
@@ -266,7 +264,12 @@ int main(int argc, char* argv[])
       		streampos oldpos1 = myfile1.tellg();  // stores the position
                 getline(myfile1, line2);
 		int aa, bb, cc, dd;
-        	istringstream twonumbers,twonumbers1;
+		string aaa, bbb, ccc, ddd;
+        	istringstream twonumbers,twonumbers1, stringtwo1, stringtwo2;
+		stringtwo1.str(line1);
+		stringtwo2.str(line2);
+		stringtwo1 >> aaa >> bbb;
+                stringtwo2 >> ccc >> ddd;
         	twonumbers.str(line1);
         	twonumbers >> aa >> bb;
         	var1 = bb;
@@ -283,21 +286,24 @@ int main(int argc, char* argv[])
 		}
 		else
 		{
-			out = to_string(aa) + " " + to_string(bb) + " " + to_string(dd);
+			//out = to_string(aa) + " " + to_string(bb) + " " + to_string(dd);
+			out = aaa + " " + bbb + " " + ddd;
 			ofstream ofs(output_file, ios_base::app | ios_base::out);
   			ofs << out << "\n";
 			while(getline(myfile1, line2))
 			{
-				  istringstream twonumbers3;
+				  istringstream twonumbers3, stringtwo3;
 				  twonumbers3.str(line2);
                 		  twonumbers3 >> cc >> dd;
+                		  stringtwo3.str(line2);
+                		  stringtwo3 >> ccc >> ddd;
                 		  var2 = cc;
 				  if (var2 == var1)
 					{
-					  out = to_string(aa) + " " + to_string(bb) + " " + to_string(dd);
+					  //out = to_string(aa) + " " + to_string(bb) + " " + to_string(dd);
+					  out = aaa + " " + bbb + " " + ddd;
 					  ofstream ofs(output_file, ios_base::app | ios_base::out);
                         		  ofs << out << "\n";
-
 					}
 				  else
 					break;	
