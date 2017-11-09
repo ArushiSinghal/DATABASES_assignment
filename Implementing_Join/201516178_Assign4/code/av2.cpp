@@ -28,24 +28,26 @@ int Merge_second(long long int ini,long long int mid,long long int fin)
 	long long int k =  ini;
 	long long int j = mid + 1;
 	long long int m = ini;
+	cout << k << endl;
+	cout << j << endl;
+	cout << m << endl;
 	while(k<=mid && j<=fin)
 	{
 		long long int var1, var2;
-		int aa, bb;
-		istringstream twonumbers;
-		twonumbers.str(leff[k]);
-		twonumbers >> aa >> bb;
-		var1 = bb;
-		twonumbers.str(leff[j]);
-		twonumbers >> aa >> bb;
-		var2 = bb;
+                int aa, bb;
+                istringstream twonumbers,twonumbers1;
+                twonumbers.str(leff[k]);
+                twonumbers >> aa >> bb;
+                var1 = bb;
+                twonumbers1.str(leff[j]);
+                twonumbers1 >> aa >> bb;
+                var2 = bb;
 		if (var2 <= var1)
 		{
 			a[m] = leff[j];
 			b[m] = b1[j];
 			j++;
 			m++;
-			break;
 		}
 		else
 		{
@@ -53,7 +55,6 @@ int Merge_second(long long int ini,long long int mid,long long int fin)
 			b[m] = b1[k];
 			k++;
 			m++;
-			break;
 		}
 	}
 	while (k<=mid)
@@ -70,6 +71,9 @@ int Merge_second(long long int ini,long long int mid,long long int fin)
 		m++;
 		j++;
 	}
+	for(int i=ini;i<=fin;i++)
+		cout << a[i] << " ";
+	cout << endl;
 	return 0;
 }
 
@@ -82,30 +86,36 @@ int Merge(long long int ini,long long int mid,long long int fin)
 	long long int k =  ini;
 	long long int j = mid + 1;
 	long long int m = ini;
+	cout << k << endl;
+        cout << fin << endl;
+	cout << "mid" << mid << endl;
+	cout << "fin" << fin << endl;
 	while(k<=mid && j<=fin)
 	{
+		cout << k << endl;
+		cout << j << endl;
 		long long int var1, var2;
-		string a, b;
-		istringstream twonumbers (leff[k]);
+		int aa, bb;
+		istringstream twonumbers,twonumbers1;
 		twonumbers.str(leff[k]);
-		twonumbers >> a >> b;
-		var1 = stoi(b);
-		twonumbers.str(leff[j]);
-		twonumbers >> a >> b;
-		var2 = stoi(b);
+		twonumbers >> aa >> bb;
+		var1 = bb;
+		cout << bb << endl;
+		twonumbers1.str(leff[j]);
+		twonumbers1 >> aa >> bb;
+		var2 = bb;
+		cout << bb << endl;
 		if (var2 <= var1)
 		{
 			a[m] = leff[j];
 			j++;
 			m++;
-			break;
 		}
 		else
 		{
 			a[m] = leff[k];
 			k++;
 			m++;
-			break;
 		}
 	}
 	while (k<=mid)
@@ -120,6 +130,9 @@ int Merge(long long int ini,long long int mid,long long int fin)
 		m++;
 		j++;
 	}
+	for(int i=ini;i<=fin;i++)
+                cout << a[i] << " ";
+        cout << endl;
 	return 0;
 }
 void sorting(long long int num_of_record,long long int initial, int flag)
@@ -174,7 +187,7 @@ int main(int argc, char* argv[]) {
 		string file = "firstsort" + to_string(i) + ".txt";
 		myfiles[i].open(file);
 	}
-	int count;
+	long long int count;
 	ofstream ofs(argv[2], ios::out | ios::trunc);
 	while(1)
 	{
