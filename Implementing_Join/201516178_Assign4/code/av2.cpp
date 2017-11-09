@@ -31,13 +31,14 @@ int Merge_second(long long int ini,long long int mid,long long int fin)
 	while(k<=mid && j<=fin)
 	{
 		long long int var1, var2;
-		string a, b;
-		istringstream twonumbers (leff[k]);
-		twonumbers >> a >> b;
-		var1 = stoi(b);
-		twonumbers(leff[j]);
-		twonumbers >> a >> b;
-		var2 = stoi(b);
+		int aa, bb;
+		istringstream twonumbers;
+		twonumbers.str(leff[k]);
+		twonumbers >> aa >> bb;
+		var1 = bb;
+		twonumbers.str(leff[j]);
+		twonumbers >> aa >> bb;
+		var2 = bb;
 		if (var2 <= var1)
 		{
 			a[m] = leff[j];
@@ -85,10 +86,11 @@ int Merge(long long int ini,long long int mid,long long int fin)
 	{
 		long long int var1, var2;
 		string a, b;
-		istringstram twonumbers (leff[k]);
+		istringstream twonumbers (leff[k]);
+		twonumbers.str(leff[k]);
 		twonumbers >> a >> b;
 		var1 = stoi(b);
-		twonumbers(leff[j]);
+		twonumbers.str(leff[j]);
 		twonumbers >> a >> b;
 		var2 = stoi(b);
 		if (var2 <= var1)
