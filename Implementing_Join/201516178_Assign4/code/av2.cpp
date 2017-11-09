@@ -28,47 +28,47 @@ int Merge_second(long long int ini,long long int mid,long long int fin)
 	long long int k =  ini;
 	long long int j = mid + 1;
 	long long int m = ini;
-		while(k<=mid && j<=fin)
-		{
-				int var1, var2;
-				string a, b;
-				istringstram twonumbers (leff[k]);
-				twonumbers >> a >> b;
-				long long int var1 = stoi(b);
-				twonumbers(leff[j]);
-        twonumbers >> a >> b;
-        long long int var2 = stoi(b);
-				if (var2 <= var1)
-				{
-					a[m] = leff[j];
-					b[m] = b1[j];
-					j++;
-					m++;
-					break;
-				}
-				else
-				{
-					a[m] = leff[k];
-					b[m] = b1[k];
-					k++;
-					m++;
-					break;
-				}
-		}
-		while (k<=mid)
-		{
-			a[m] = leff[k];
-			b[m] = b1[k];
-			m++;
-			k++;
-		}
-		while (j<=fin)
+	while(k<=mid && j<=fin)
+	{
+		long long int var1, var2;
+		string a, b;
+		istringstream twonumbers (leff[k]);
+		twonumbers >> a >> b;
+		var1 = stoi(b);
+		twonumbers(leff[j]);
+		twonumbers >> a >> b;
+		var2 = stoi(b);
+		if (var2 <= var1)
 		{
 			a[m] = leff[j];
 			b[m] = b1[j];
-			m++;
 			j++;
+			m++;
+			break;
 		}
+		else
+		{
+			a[m] = leff[k];
+			b[m] = b1[k];
+			k++;
+			m++;
+			break;
+		}
+	}
+	while (k<=mid)
+	{
+		a[m] = leff[k];
+		b[m] = b1[k];
+		m++;
+		k++;
+	}
+	while (j<=fin)
+	{
+		a[m] = leff[j];
+		b[m] = b1[j];
+		m++;
+		j++;
+	}
 	return 0;
 }
 
@@ -81,43 +81,43 @@ int Merge(long long int ini,long long int mid,long long int fin)
 	long long int k =  ini;
 	long long int j = mid + 1;
 	long long int m = ini;
-		while(k<=mid && j<=fin)
-		{
-				int var1, var2;
-				string a, b;
-				istringstram twonumbers (leff[k]);
-				twonumbers >> a >> b;
-				long long int var1 = stoi(b);
-				twonumbers(leff[j]);
-        twonumbers >> a >> b;
-        long long int var2 = stoi(b);
-				if (var2 <= var1)
-				{
-					a[m] = leff[j];
-					j++;
-					m++;
-					break;
-				}
-				else
-				{
-					a[m] = leff[k];
-					k++;
-					m++;
-					break;
-				}
-		}
-		while (k<=mid)
-		{
-			a[m] = leff[k];
-			m++;
-			k++;
-		}
-		while (j<=fin)
+	while(k<=mid && j<=fin)
+	{
+		long long int var1, var2;
+		string a, b;
+		istringstram twonumbers (leff[k]);
+		twonumbers >> a >> b;
+		var1 = stoi(b);
+		twonumbers(leff[j]);
+		twonumbers >> a >> b;
+		var2 = stoi(b);
+		if (var2 <= var1)
 		{
 			a[m] = leff[j];
-			m++;
 			j++;
+			m++;
+			break;
 		}
+		else
+		{
+			a[m] = leff[k];
+			k++;
+			m++;
+			break;
+		}
+	}
+	while (k<=mid)
+	{
+		a[m] = leff[k];
+		m++;
+		k++;
+	}
+	while (j<=fin)
+	{
+		a[m] = leff[j];
+		m++;
+		j++;
+	}
 	return 0;
 }
 void sorting(long long int num_of_record,long long int initial, int flag)
@@ -125,12 +125,12 @@ void sorting(long long int num_of_record,long long int initial, int flag)
 	if(initial == num_of_record-1)
 		return;
 	long long int mid = (initial+num_of_record-1)/2;
-	sorting(mid+1,initial);
-	sorting(num_of_record,mid+1);
+	sorting(mid+1,initial,flag);
+	sorting(num_of_record,mid+1,flag);
 	if (flag == 0)
-	Merge(initial,mid,num_of_record-1);
+		Merge(initial,mid,num_of_record-1);
 	else
-	Merge_second(initial,mid,num_of_record-1);
+		Merge_second(initial,mid,num_of_record-1);
 	return;
 }
 
@@ -139,18 +139,19 @@ int main(int argc, char* argv[]) {
 	ifstream myfile;
 	myfile.open(argv[1]);
 	long long int buffer = 0;
+	string line;
 	while (getline(myfile, line))
 	{
 		a[0] = line;
 		long long int count = 1;
 		while (getline(myfile, line))
-			{
-				a[count] = line;
-				count += 1;
-				if (count == memory)
-					break;
-			}
-		sorting(count,0);
+		{
+			a[count] = line;
+			count += 1;
+			if (count == memory)
+				break;
+		}
+		sorting(count,0,0);
 		string filenames = "firstsort";
 		filenames = filenames + to_string(buffer);
 		filenames =  filenames + ".txt";
@@ -179,6 +180,9 @@ int main(int argc, char* argv[]) {
 		for(int i=0;i< buffer;i++)
 		{
 			if(myfiles[i].eof() || myfiles[i].peek() == EOF)
+				{
+					int p;
+				}
 			else
 			{
 				streampos oldpos = myfiles[i].tellg();  // stores the position
@@ -190,7 +194,7 @@ int main(int argc, char* argv[]) {
 		}
 		if (count == 0)
 			break;
-		sorting(count,1);
+		sorting(count,0,1);
 		ofstream log(argv[2], ios_base::app | ios_base::out);
 		a[0] = a[0].substr(0, a[0].size());
 		log << a[0] << "\n";
