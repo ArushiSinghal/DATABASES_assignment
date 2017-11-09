@@ -275,11 +275,11 @@ int main(int argc, char* argv[])
         	var2 = cc;
 		if (var1 < var2)
 		{
-			myfile1.seekg (oldpos1);
+			myfile1.seekg(oldpos1);
 		}
 		else if (var2 < var1)
 		{
-			myfile2.seekg (oldpos);
+			myfile.seekg(oldpos);
 		}
 		else
 		{
@@ -302,7 +302,7 @@ int main(int argc, char* argv[])
 				  else
 					break;	
 			}
-			myfile2.seekg(oldpos);	
+			myfile1.seekg(oldpos1);	
 		}
 	}
 	return 0;
