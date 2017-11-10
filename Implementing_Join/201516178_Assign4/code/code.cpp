@@ -289,10 +289,14 @@ int main(int argc, char* argv[])
         	var2 = cc;
 		if (var1 < var2)
 		{
+			myfile1.close();
+                        myfile1.open(output2_sort);
 			myfile1.seekg(oldpos1);
 		}
 		else if (var2 < var1)
 		{
+			myfile.close();
+                        myfile.open(output1_sort);
 			myfile.seekg(oldpos);
 		}
 		else
