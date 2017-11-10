@@ -223,6 +223,10 @@ int main(int argc, char* argv[])
 	string type = argv[3];
 	string output1_sort = "output1";
 	string output2_sort = "output2";
+	ofstream v1(output1_sort, ios::out | ios::trunc);
+        v1.close();
+	ofstream v2(output1_sort, ios::out | ios::trunc);
+        v2.close();
 	long long int buff  = stoi(argv[4]);
 	long long int var1 = r_filename_path.length();
 	long long int var2 = s_filename_path.length();
@@ -257,8 +261,14 @@ int main(int argc, char* argv[])
 	while(1)
 	{
 		string line1, line2, out;
-		if(myfile.eof() || myfile.peek() == EOF || myfile1.eof() || myfile1.peek() == EOF)
-    			break;
+		if(myfile.eof() || myfile.peek() == EOF)
+    			{
+				break;
+			}
+		if(myfile1.eof() || myfile1.peek() == EOF)
+                        {
+                                break;
+                        }
 		streampos oldpos = myfile.tellg();  // stores the position
       		getline(myfile, line1);
       		//myfile.seekg (oldpos);   // get back to the position
@@ -309,6 +319,8 @@ int main(int argc, char* argv[])
 				  else
 					break;	
 			}
+			myfile1.close();
+			myfile1.open(output2_sort);
 			myfile1.seekg(oldpos1);	
 		}
 	}
