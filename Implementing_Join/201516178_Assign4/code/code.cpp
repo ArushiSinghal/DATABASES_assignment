@@ -14,6 +14,7 @@
 #include <ios>
 #include <ctime>
 #include <cstdio>
+#include <iostream>
 using namespace std;
 string a[6000000];
 long long int b[6000000];
@@ -233,15 +234,15 @@ int main(int argc, char* argv[])
 	int i;
 	for(i=var1-1;i>=0;i--)
 	{
-		if (r_filename_path[i] == '/')	
+		if (r_filename_path[i] == '/')
 		{
 			break;
 		}
 	}
-	string r_filename = r_filename_path.substr(i+1,var1-i-1); 
+	string r_filename = r_filename_path.substr(i+1,var1-i-1);
 	for(i=var2-1;i>=0;i--)
         {
-                if (s_filename_path[i] == '/')  
+                if (s_filename_path[i] == '/')
                 {
                         break;
                 }
@@ -321,11 +322,11 @@ int main(int argc, char* argv[])
                         		  ofs << out << "\n";
 					}
 				  else
-					break;	
+					break;
 			}
 			myfile1.close();
 			myfile1.open(output2_sort);
-			myfile1.seekg(oldpos1);	
+			myfile1.seekg(oldpos1);
 		}
 	}
 	ofs.close();

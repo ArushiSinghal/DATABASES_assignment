@@ -83,21 +83,60 @@ int hash_join(string input_filename, long long int num_blocks ,int hash_flag)
 	else
 		first_phase_s();
 	input_file.close();
-	for(i=0;i<num_blocks;i++)
+	for(i=0;i<number_of_blocks;i++)
 	{
-		ifstream myfile1, myfile2;
+		ifstream myfile, myfile1;
 		string name1 = "firstsort" + to_string(i);
 		string name2 = "secondsort" + to_string(i);
-		myfile1.open(name1);
-		myfile2.open(name2);
+		myfile.open(name1);
+		myfile1.open(name2);
+		ofstream ofs(output_file, ios_base::app | ios_base::out);
 		while(1)
 			{
-
-
-
-
+				string line1, line2, out;
+				if(myfile.eof() || myfile.peek() == EOF || myfile1.eof() || myfile1.peek() == EOF)
+					break;
+				getline(myfile, line1);
+				streampos oldpos1 = myfile1.tellg();  // stores the position
+				getline(myfile1, line2);
+			  int aa, bb, cc, dd;
+				string aaa, bbb, ccc, ddd;
+				istringstream twonumbers,twonumbers1, stringtwo1, stringtwo2;
+				stringtwo1.str(line1);
+				stringtwo2.str(line2);
+			  stringtwo1 >> aaa >> bbb;
+				stringtwo2 >> ccc >> ddd;
+				twonumbers.str(line1);
+				twonumbers >> aa >> bb;
+				var1 = bb;
+				twonumbers1.str(line2);
+				twonumbers1 >> cc >> dd;
+				var2 = cc;
+				if (var1 == var2)
+				{
+					out = aaa + " " + bbb + " " + ddd;
+		  		ofs << out << "\n";
+				}
+				while(getline(myfile1, line2))
+				{
+						istringstream twonumbers3, stringtwo3;
+						twonumbers3.str(line2);
+					  twonumbers3 >> cc >> dd;
+						stringtwo3.str(line2);
+						stringtwo3 >> ccc >> ddd;
+						var2 = cc;
+						if (var2 == var1)
+						{
+							out = aaa + " " + bbb + " " + ddd;
+							ofs << out << "\n";
+						}
+				}
+				myfile1.close();
+				myfile1.open(name2);
+				myfile1.seekg(oldpos1);
 			}
-
+			myfile.close();
+			myfile1.close();
 	}
 	return 0;
 }
