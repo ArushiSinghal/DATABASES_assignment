@@ -83,6 +83,13 @@ int hash_join(string input_filename, long long int num_blocks ,int hash_flag)
 	else
 		first_phase_s();
 	input_file.close();
+
+}
+
+int main_hashing(string input_filename, string out_file, long long int num_blocks ,int hash_flag)
+{
+	hash_join(input_filename, num_blocks , 0)
+	hash_join(input_filename, num_blocks , 1)
 	for(i=0;i<number_of_blocks;i++)
 	{
 		ifstream myfile, myfile1;
