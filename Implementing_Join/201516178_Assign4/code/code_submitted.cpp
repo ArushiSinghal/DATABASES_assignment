@@ -20,7 +20,6 @@
 using namespace std;
 long long int number_of_blocks;
 ifstream input_file;
-string filenames;
 
 void first_phase_r()
 {
@@ -34,16 +33,16 @@ void first_phase_r()
 	}
 	while(getline(myfile, line))
 	{
-
-                long long int aa, bb;
-                istringstream twonumbers;
-                twonumbers.str(line);
-                twonumbers >> aa >> bb;
+		long long int aa, bb;
+		istringstream twonumbers;
+		twonumbers.str(line);
+		twonumbers >> aa >> bb;
 		long long int data = bb%number_of_blocks;
 		string file = "firstsort" + to_string(data);
 		ofstream log(file, ios_base::app | ios_base::out);
-                log << line << "\n";
+		log << line << "\n";
 	}
+	log.close();
 	fi.close();
 	return;
 }
@@ -70,26 +69,29 @@ void first_phase_s()
                 log << line << "\n";
         }
         fi.close();
+				log.close();
         return;
 }
 
-int hash_join(string input_filename, long long int num_blocks ,int hash_flag)
+int hash_join(string input_filename1, string input_filename2, long long int num_blocks)
 {
-	filenames =  input_filename;
+	string filenames =  input_filename1;
 	number_of_blocks = num_blocks;
 	input_file.open(filenames);
-	if (hash_flag == 0)
-		first_phase_r();
-	else
-		first_phase_s();
+	first_phase_r();
 	input_file.close();
-
+	filenames =  input_filename2;
+	input_file.open(filenames);
+	first_phase_s();
+	input_file.close();
 }
 
-int main_hashing(string input_filename, string out_file, long long int num_blocks ,int hash_flag)
+int main_hashing(string input_filename1, string input_filename2,string output_file, long long int num_blocks)
 {
-	hash_join(input_filename, num_blocks , 0)
-	hash_join(input_filename, num_blocks , 1)
+	hash_join(input_filename1, input_filename2, num_blocks)
+	ofstream v(output_file, ios::out | ios::trunc);
+	v.close();
+	ofstream ofs(output_file, ios_base::app | ios_base::out);
 	for(i=0;i<number_of_blocks;i++)
 	{
 		ifstream myfile, myfile1;
@@ -97,7 +99,6 @@ int main_hashing(string input_filename, string out_file, long long int num_block
 		string name2 = "secondsort" + to_string(i);
 		myfile.open(name1);
 		myfile1.open(name2);
-		ofstream ofs(output_file, ios_base::app | ios_base::out);
 		while(1)
 			{
 				string line1, line2, out;
@@ -142,8 +143,7 @@ int main_hashing(string input_filename, string out_file, long long int num_block
 				myfile1.open(name2);
 				myfile1.seekg(oldpos1);
 			}
-			myfile.close();
-			myfile1.close();
 	}
+	ofs.close();
 	return 0;
 }
